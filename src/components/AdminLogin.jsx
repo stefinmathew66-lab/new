@@ -102,12 +102,6 @@ export default function AdminLogin({ onLoginSuccess }) {
             Authenticate Portal
           </button>
         </form>
-
-        <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
-          <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>
-            Demo Access Credentials: <strong style={{ color: 'var(--text-primary)' }}>admin / iammanmeetandgay</strong>
-          </span>
-        </div>
       </div>
     </div>
   );
