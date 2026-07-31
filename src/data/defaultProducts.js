@@ -1,0 +1,67 @@
+export const defaultProducts = [
+  {
+    id: "prod-1",
+    title: "Aura of Kanchi",
+    category: "Silk",
+    price: 24500,
+    description: "A majestic royal crimson red and antique gold Kanchipuram silk saree, hand-woven with pure zari threads. Reflecting centuries of heritage, this masterpiece features a traditional temple border, dense brocade pallu, and high-density gold weaving.",
+    material: "100% Pure Kanchipuram Silk",
+    zari: "Pure Gold & Silver Zari",
+    care: "Dry Clean Only. Store wrapped in clean muslin cloth in a cool, dry place.",
+    stock: 5,
+    image: "/images/silk_kanchipuram.png",
+    featured: true
+  },
+  {
+    id: "prod-2",
+    title: "Roseate Banaras",
+    category: "Banarasi",
+    price: 28900,
+    description: "An exquisite blush pink Banarasi silk saree, featuring fine silver zari thread embroidery and elaborate floral bootis. Woven in the ancient lanes of Varanasi, it features a heavy border and detailed pallu depicting Mughal floral motifs.",
+    material: "Pure Banarasi Katan Silk",
+    zari: "Fine Kalabattu Silver Zari",
+    care: "Dry Clean Only. Avoid direct perfume sprays on zari work.",
+    stock: 3,
+    image: "/images/banarasi_pink.png",
+    featured: true
+  },
+  {
+    id: "prod-3",
+    title: "Mint Whisper",
+    category: "Organza",
+    price: 16800,
+    description: "A premium, light-as-air translucent organza saree in soothing mint green. It is detailed with a delicate hand-crafted scalloped gold border and pastel floral embroidery, offering a perfect blend of modern minimalism and traditional craft.",
+    material: "Premium Italian Organza Silk Blend",
+    zari: "Subtle Antique Gold Thread",
+    care: "Dry Clean Only. Do not wring or press with high heat.",
+    stock: 8,
+    image: "/images/organza_mint.png",
+    featured: false
+  },
+  {
+    id: "prod-4",
+    title: "Ivory Zen Linen",
+    category: "Linen",
+    price: 9500,
+    description: "A minimalist, highly breathable linen-silk saree accented with vertical gold stripes and thin metallic silver lines. Tailored for daytime elegance, warm weather, and understated minimalist luxury.",
+    material: "80% Organic Linen, 20% Mulberry Silk",
+    zari: "Sleek Gold & Metallic Threads",
+    care: "Dry Clean or Gentle Handwash with mild liquid detergents. Iron while damp.",
+    stock: 12,
+    image: "/images/linen_beige.png",
+    featured: false
+  },
+  {
+    id: "prod-5",
+    title: "Midnight Indigo",
+    category: "Georgette",
+    price: 19200,
+    description: "Deep indigo blue pure Georgette saree that drapes in dramatic royal folds, highlighted by an ornate, heavy antique gold zari border. Ideal for luxurious evening events and timeless elegance.",
+    material: "Pure Silk Georgette",
+    zari: "Antique Brass/Gold Brocade Zari",
+    care: "Dry Clean Only. Store flat to prevent stretching of the weave.",
+    stock: 4,
+    image: "/images/georgette_indigo.png",
+    featured: true
+  }
+];
