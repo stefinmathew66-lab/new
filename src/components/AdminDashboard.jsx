@@ -155,7 +155,7 @@ export default function AdminDashboard({
       <aside className="admin-sidebar">
         <div className="admin-sidebar-header">
           <span style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', letterSpacing: '0.15em' }}>
-            MANMEETGAY
+            THE VELNORA
           </span>
         </div>
 

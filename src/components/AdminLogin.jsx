@@ -8,7 +8,7 @@ export default function AdminLogin({ onLoginSuccess }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (username === 'admin' && password === 'iammanmeetandgay') {
+    if (username === 'admin' && password === 'iamvelnora') {
       onLoginSuccess();
     } else {
       setError('Invalid administrative credentials. Please verify and retry.');
@@ -38,7 +38,7 @@ export default function AdminLogin({ onLoginSuccess }) {
       >
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <span className="uppercase-track text-gold" style={{ display: 'block', marginBottom: '0.5rem' }}>
-            MANMEETGAY STUDIO
+            THE VELNORA STUDIO
           </span>
           <h2 style={{ fontSize: '2.2rem', fontFamily: 'var(--font-serif)' }}>
             Admin Portal

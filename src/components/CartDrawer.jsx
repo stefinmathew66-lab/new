@@ -137,7 +137,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, on
                 <input 
                   type="text" 
                   className="form-input" 
-                  placeholder="Manmeet Singh" 
+                  placeholder="Aarav Sharma" 
                   required 
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -149,7 +149,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, on
                 <input 
                   type="email" 
                   className="form-input" 
-                  placeholder="manmeet@example.com" 
+                  placeholder="aarav@example.com" 
                   required 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}

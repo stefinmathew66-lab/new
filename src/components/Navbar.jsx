@@ -78,7 +78,7 @@ export default function Navbar({ cartCount, onCartClick, onViewChange, currentVi
             }}
             className="nav-logo-text"
           >
-            MANMEETGAY
+            THE VELNORA
           </div>
 
           {/* Desktop Navigation Links */}

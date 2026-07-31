@@ -46,34 +46,34 @@ export default function App() {
   // Load state from localStorage on mount
   useEffect(() => {
     // 1. Load Products
-    const storedProducts = localStorage.getItem('manmeetgay_products');
+    const storedProducts = localStorage.getItem('velnora_products');
     if (storedProducts) {
       setProducts(JSON.parse(storedProducts));
     } else {
-      localStorage.setItem('manmeetgay_products', JSON.stringify(defaultProducts));
+      localStorage.setItem('velnora_products', JSON.stringify(defaultProducts));
       setProducts(defaultProducts);
     }
 
     // 2. Load Cart
-    const storedCart = localStorage.getItem('manmeetgay_cart');
+    const storedCart = localStorage.getItem('velnora_cart');
     if (storedCart) {
       setCart(JSON.parse(storedCart));
     }
 
     // 3. Load Orders
-    const storedOrders = localStorage.getItem('manmeetgay_orders');
+    const storedOrders = localStorage.getItem('velnora_orders');
     if (storedOrders) {
       setOrders(JSON.parse(storedOrders));
     }
 
     // 4. Load Inquiries
-    const storedInquiries = localStorage.getItem('manmeetgay_inquiries');
+    const storedInquiries = localStorage.getItem('velnora_inquiries');
     if (storedInquiries) {
       setInquiries(JSON.parse(storedInquiries));
     }
 
     // Check if admin is already logged in for this session
-    const adminSession = sessionStorage.getItem('manmeetgay_admin_auth');
+    const adminSession = sessionStorage.getItem('velnora_admin_auth');
     if (adminSession === 'true') {
       setIsAdminAuthenticated(true);
     }
@@ -88,7 +88,7 @@ export default function App() {
   // Sync Cart to localStorage when mutated
   const saveCart = (newCart) => {
     setCart(newCart);
-    localStorage.setItem('manmeetgay_cart', JSON.stringify(newCart));
+    localStorage.setItem('velnora_cart', JSON.stringify(newCart));
   };
 
   // Intersection Observer for scroll entrance reveals
@@ -153,7 +153,7 @@ export default function App() {
     // 1. Save order
     const updatedOrders = [newOrder, ...orders];
     setOrders(updatedOrders);
-    localStorage.setItem('manmeetgay_orders', JSON.stringify(updatedOrders));
+    localStorage.setItem('velnora_orders', JSON.stringify(updatedOrders));
 
     // 2. Adjust products stock levels
     const updatedProducts = products.map((prod) => {
@@ -168,7 +168,7 @@ export default function App() {
     });
 
     setProducts(updatedProducts);
-    localStorage.setItem('manmeetgay_products', JSON.stringify(updatedProducts));
+    localStorage.setItem('velnora_products', JSON.stringify(updatedProducts));
 
     // 3. Clear cart
     saveCart([]);
@@ -200,7 +200,7 @@ export default function App() {
 
     const updatedInquiries = [newInquiry, ...inquiries];
     setInquiries(updatedInquiries);
-    localStorage.setItem('manmeetgay_inquiries', JSON.stringify(updatedInquiries));
+    localStorage.setItem('velnora_inquiries', JSON.stringify(updatedInquiries));
 
     setContactSuccess(true);
     setContactName('');
@@ -217,19 +217,19 @@ export default function App() {
   // Admin Dashboard Hooks
   const handleAdminLogin = () => {
     setIsAdminAuthenticated(true);
-    sessionStorage.setItem('manmeetgay_admin_auth', 'true');
+    sessionStorage.setItem('velnora_admin_auth', 'true');
   };
 
   const handleAdminLogout = () => {
     setIsAdminAuthenticated(false);
-    sessionStorage.removeItem('manmeetgay_admin_auth');
+    sessionStorage.removeItem('velnora_admin_auth');
     setCurrentView('storefront');
   };
 
   const handleAdminAddProduct = (newProduct) => {
     const updatedList = [newProduct, ...products];
     setProducts(updatedList);
-    localStorage.setItem('manmeetgay_products', JSON.stringify(updatedList));
+    localStorage.setItem('velnora_products', JSON.stringify(updatedList));
   };
 
   const handleAdminEditProduct = (updatedProduct) => {
@@ -237,13 +237,13 @@ export default function App() {
       p.id === updatedProduct.id ? { ...p, ...updatedProduct } : p
     );
     setProducts(updatedList);
-    localStorage.setItem('manmeetgay_products', JSON.stringify(updatedList));
+    localStorage.setItem('velnora_products', JSON.stringify(updatedList));
   };
 
   const handleAdminDeleteProduct = (productId) => {
     const updatedList = products.filter((p) => p.id !== productId);
     setProducts(updatedList);
-    localStorage.setItem('manmeetgay_products', JSON.stringify(updatedList));
+    localStorage.setItem('velnora_products', JSON.stringify(updatedList));
   };
 
   const handleAdminUpdateOrderStatus = (orderId, newStatus) => {
@@ -251,13 +251,13 @@ export default function App() {
       o.id === orderId ? { ...o, status: newStatus } : o
     );
     setOrders(updatedList);
-    localStorage.setItem('manmeetgay_orders', JSON.stringify(updatedList));
+    localStorage.setItem('velnora_orders', JSON.stringify(updatedList));
   };
 
   const handleAdminDeleteInquiry = (inquiryId) => {
     const updatedList = inquiries.filter((inq) => inq.id !== inquiryId);
     setInquiries(updatedList);
-    localStorage.setItem('manmeetgay_inquiries', JSON.stringify(updatedList));
+    localStorage.setItem('velnora_inquiries', JSON.stringify(updatedList));
   };
 
   // Filter products by selected tab
@@ -362,7 +362,7 @@ export default function App() {
                         Preserving the Loom of India
                       </h2>
                       <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.8', marginBottom: '1.5rem' }}>
-                        At <strong>Manmeetgay Sarees</strong>, every thread tells a story of devotion, patience, and ancestral heritage. We partner directly with artisan families in Kanchipuram, Varanasi, and weaving centers across India to bring you authentic handloom designs.
+                        At <strong>The Velnora Sarees</strong>, every thread tells a story of devotion, patience, and ancestral heritage. We partner directly with artisan families in Kanchipuram, Varanasi, and weaving centers across India to bring you authentic handloom designs.
                       </p>
                       <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.8', marginBottom: '2rem' }}>
                         A single Kanchipuram silk saree can take up to 20 days of intricate hand weaving, incorporating three shuttles and authentic silver thread dipped in pure gold zari. These are not merely garments; they are wearable art pieces designed to be passed down through generations.
@@ -439,7 +439,7 @@ export default function App() {
                           <Mail size={18} className="contact-info-icon" />
                           <div>
                             <div className="contact-info-title">Email Correspondence</div>
-                            <div className="contact-info-desc">concierge@manmeetgay.com</div>
+                            <div className="contact-info-desc">concierge@thevelnora.com</div>
                           </div>
                         </div>
                       </div>
@@ -461,7 +461,7 @@ export default function App() {
                             <input 
                               type="text" 
                               className="form-input" 
-                              placeholder="Manmeet Singh" 
+                              placeholder="Aarav Sharma" 
                               required 
                               value={contactName}
                               onChange={(e) => setContactName(e.target.value)}
@@ -474,7 +474,7 @@ export default function App() {
                               <input 
                                 type="email" 
                                 className="form-input" 
-                                placeholder="manmeet@example.com" 
+                                placeholder="aarav@example.com" 
                                 required 
                                 value={contactEmail}
                                 onChange={(e) => setContactEmail(e.target.value)}
@@ -535,7 +535,7 @@ export default function App() {
                 <div className="container">
                   <div className="footer-grid">
                     <div>
-                      <div className="footer-brand">MANMEETGAY</div>
+                      <div className="footer-brand">THE VELNORA</div>
                       <p className="footer-tagline">
                         Preserving the loom of India through curated, certified handloom silk sarees. Masterpieces designed to be passed down.
                       </p>
@@ -582,7 +582,7 @@ export default function App() {
                         <button 
                           className="btn-premium"
                           style={{ padding: '0.75rem 1.25rem', background: 'var(--accent-gold)', borderColor: 'var(--accent-gold)', color: 'var(--text-primary)' }}
-                          onClick={() => alert('Thank you for subscribing to Manmeetgay Sarees.')}
+                          onClick={() => alert('Thank you for subscribing to The Velnora Sarees.')}
                         >
                           Join
                         </button>
@@ -592,7 +592,7 @@ export default function App() {
 
                   <div className="footer-bottom">
                     <span className="footer-copy">
-                      © {new Date().getFullYear()} Manmeetgay Sarees Private Limited. All Rights Reserved.
+                      © {new Date().getFullYear()} The Velnora Sarees Private Limited. All Rights Reserved.
                     </span>
                     <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.3)' }}>
                       Silk Mark Certified | Authentic Handlooms
@@ -647,7 +647,7 @@ export default function App() {
           {/* Floating WhatsApp Option */}
           {currentView === 'storefront' && (
             <a
-              href="https://wa.me/918619299237?text=Hello%20Manmeetgay%20Sarees,%20I'd%20like%20to%20inquire%20about%20your%20luxury%20collection."
+              href="https://wa.me/918619299237?text=Hello%20The%20Velnora%20Sarees,%20I'd%20like%20to%20inquire%20about%20your%20luxury%20collection."
               target="_blank"
               rel="noopener noreferrer"
               className="whatsapp-float-btn"
