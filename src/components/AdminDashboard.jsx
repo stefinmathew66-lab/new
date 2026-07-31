@@ -51,6 +51,20 @@ export default function AdminDashboard({
   const [care, setCare] = useState('');
   const [selectedImage, setSelectedImage] = useState(AVAILABLE_IMAGES[0].url);
   const [customImageUrl, setCustomImageUrl] = useState('');
+  const [uploadedImage, setUploadedImage] = useState('');
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadedImage(reader.result);
+        setCustomImageUrl('');
+        setSelectedImage('');
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   // Analytics helper calculations
   const totalSales = orders.reduce((sum, order) => sum + order.total, 0);
@@ -68,6 +82,7 @@ export default function AdminDashboard({
     setCare('');
     setSelectedImage(AVAILABLE_IMAGES[0].url);
     setCustomImageUrl('');
+    setUploadedImage('');
     setIsFormOpen(true);
   };
 
@@ -91,7 +106,7 @@ export default function AdminDashboard({
       setSelectedImage('');
       setCustomImageUrl(product.image);
     }
-    
+    setUploadedImage('');
     setIsFormOpen(true);
   };
 
@@ -103,7 +118,7 @@ export default function AdminDashboard({
       return;
     }
 
-    const finalImage = customImageUrl || selectedImage || AVAILABLE_IMAGES[0].url;
+    const finalImage = uploadedImage || customImageUrl || selectedImage || AVAILABLE_IMAGES[0].url;
 
     const productPayload = {
       title,
@@ -115,6 +130,7 @@ export default function AdminDashboard({
       zari,
       care,
       image: finalImage,
+      detailImage: finalImage,
       id: editingProduct ? editingProduct.id : `prod-${Date.now()}`
     };
 
@@ -478,6 +494,11 @@ export default function AdminDashboard({
                               • {item.title} ({item.category}) × <strong>{item.quantity}</strong>
                             </div>
                           ))}
+                          {order.giftWrap && order.giftWrap.startsWith('Yes') && (
+                            <div style={{ fontSize: '0.65rem', color: 'var(--accent-gold-dark)', fontWeight: 600, marginTop: '0.25rem' }}>
+                              🎁 Sandalwood Wrapping
+                            </div>
+                          )}
                         </td>
                         <td style={{ fontWeight: 600 }}>₹{order.total.toLocaleString('en-IN')}</td>
                         <td>
@@ -713,6 +734,33 @@ export default function AdminDashboard({
                 ))}
               </div>
 
+              <div style={{ marginTop: '1.25rem', padding: '1rem', border: '1px dashed var(--border-color)', background: 'rgba(255,255,255,0.02)', borderRadius: '4px' }}>
+                <label className="form-label" style={{ fontSize: '0.7rem' }}>Or Upload Custom Saree Image File</label>
+                <input 
+                  type="file" 
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  style={{ 
+                    fontFamily: 'var(--font-sans)', 
+                    fontSize: '0.75rem', 
+                    color: 'var(--text-secondary)',
+                    marginTop: '0.25rem',
+                    width: '100%',
+                    cursor: 'pointer'
+                  }} 
+                />
+                {uploadedImage && (
+                  <div style={{ marginTop: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <img 
+                      src={uploadedImage} 
+                      alt="Uploaded preview" 
+                      style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px', border: '1px solid var(--accent-gold)' }} 
+                    />
+                    <span style={{ fontSize: '0.65rem', color: '#43A047', fontWeight: 600 }}>✓ Ready to Save</span>
+                  </div>
+                )}
+              </div>
+
               <div style={{ marginTop: '1rem' }}>
                 <label className="form-label" style={{ fontSize: '0.65rem' }}>Or Provide Custom Saree Image URL</label>
                 <input 
@@ -723,6 +771,7 @@ export default function AdminDashboard({
                   onChange={(e) => {
                     setCustomImageUrl(e.target.value);
                     setSelectedImage('');
+                    setUploadedImage('');
                   }}
                 />
               </div>

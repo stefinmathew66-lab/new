@@ -1,8 +1,39 @@
-import React from 'react';
-import { X, ShoppingBag, ShieldCheck, Sparkles, RefreshCw } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, ShoppingBag, ShieldCheck, Sparkles, RefreshCw, Compass } from 'lucide-react';
+
+const STEPS = [
+  {
+    title: "1. Raw Silk Selection",
+    summary: "Mulberry Cultivation",
+    desc: "We select the highest grade raw mulberry silk. The silk filaments are carefully gathered and hand-spun on charkha looms to build high tensile strength and rich natural luster."
+  },
+  {
+    title: "2. Natural Dyeing",
+    summary: "Copper Vat Infusions",
+    desc: "Spun threads are washed and dipped into copper vats infused with natural dye extracts (like indigo, madder, turmeric) to achieve rich, long-lasting color tones."
+  },
+  {
+    title: "3. Pure Gold Zari twisting",
+    summary: "Gold & Silver Twists",
+    desc: "Artisans wrap fine silver wires around natural silk threads, then dip the strands in pure gold bath. Woven zari contains certified silver and pure gold content."
+  },
+  {
+    title: "4. Setting the Weave Canvas",
+    summary: "Loom Drafting",
+    desc: "Setting up the warp (vertical) threads on the wooden handloom, drafting the pattern cards that guide the weave motif (e.g. temple borders, peacocks)."
+  },
+  {
+    title: "5. Handloom Brocading",
+    summary: "Double-Shuttle Weaving",
+    desc: "Two weavers coordinate shuttles, manually interweaving the gold zari over the silk. Woven at a rate of just 2-3 inches per day, creating a unique signature piece."
+  }
+];
 
 export default function ProductDetailModal({ product, onClose, onAddToCart }) {
   if (!product) return null;
+
+  const [activeTab, setActiveTab] = useState('specs'); // 'specs' or 'loom'
+  const [activeStep, setActiveStep] = useState(0);
 
   const isOutOfStock = product.stock === 0;
 
@@ -16,12 +47,31 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
         </button>
 
         {/* Left Aspect Image */}
-        <div className="modal-left">
+        <div className="modal-left" style={{ position: 'relative' }}>
           <img 
             src={product.image} 
             alt={product.title} 
             className="modal-detail-img" 
           />
+          {product.detailImage && (
+            <div 
+              style={{
+                position: 'absolute',
+                bottom: '1rem',
+                left: '1rem',
+                background: 'rgba(30, 28, 26, 0.75)',
+                color: '#FFFFFF',
+                padding: '0.4rem 0.8rem',
+                fontSize: '0.6rem',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                backdropFilter: 'blur(4px)',
+                pointerEvents: 'none'
+              }}
+            >
+              Artisan Weave Detail Preview
+            </div>
+          )}
         </div>
 
         {/* Right Aspect Details */}
@@ -35,25 +85,116 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
             ₹{product.price.toLocaleString('en-IN')}
           </div>
 
-          <p className="modal-desc">
-            {product.description}
-          </p>
-
-          {/* Product Technical Spec Sheet */}
-          <div className="modal-specs">
-            <div>
-              <div className="spec-item-lbl">Material Weave</div>
-              <div className="spec-item-val">{product.material || "Pure Silk"}</div>
-            </div>
-            <div>
-              <div className="spec-item-lbl">Zari Details</div>
-              <div className="spec-item-val">{product.zari || "Pure Zari borders"}</div>
-            </div>
-            <div style={{ gridColumn: 'span 2', borderTop: '1px solid rgba(30,28,26,0.04)', paddingTop: '0.75rem' }}>
-              <div className="spec-item-lbl">Care & Maintenance</div>
-              <div className="spec-item-val" style={{ fontSize: '0.75rem', lineHeight: '1.4' }}>{product.care || "Dry clean only"}</div>
-            </div>
+          {/* Premium Tab Switches */}
+          <div style={{ display: 'flex', gap: '1.5rem', borderBottom: '1px solid var(--border-color)', marginBottom: '1.5rem', paddingBottom: '0.25rem' }}>
+            <button 
+              onClick={() => setActiveTab('specs')}
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '0.75rem',
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                color: activeTab === 'specs' ? 'var(--accent-gold-dark)' : 'var(--text-secondary)',
+                borderBottom: activeTab === 'specs' ? '2px solid var(--accent-gold-dark)' : '2px solid transparent',
+                paddingBottom: '0.5rem',
+                transition: 'var(--transition-fast)'
+              }}
+            >
+              Specifications
+            </button>
+            <button 
+              onClick={() => setActiveTab('loom')}
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '0.75rem',
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                color: activeTab === 'loom' ? 'var(--accent-gold-dark)' : 'var(--text-secondary)',
+                borderBottom: activeTab === 'loom' ? '2px solid var(--accent-gold-dark)' : '2px solid transparent',
+                paddingBottom: '0.5rem',
+                transition: 'var(--transition-fast)'
+              }}
+            >
+              The Loom Journey
+            </button>
           </div>
+
+          {/* TAB CONTENT: SPECS SHEET */}
+          {activeTab === 'specs' && (
+            <>
+              <p className="modal-desc">
+                {product.description}
+              </p>
+
+              {/* Technical specifications */}
+              <div className="modal-specs">
+                <div>
+                  <div className="spec-item-lbl">Material Weave</div>
+                  <div className="spec-item-val">{product.material || "Pure Silk"}</div>
+                </div>
+                <div>
+                  <div className="spec-item-lbl">Zari Details</div>
+                  <div className="spec-item-val">{product.zari || "Pure Zari borders"}</div>
+                </div>
+                <div style={{ gridColumn: 'span 2', borderTop: '1px solid rgba(30,28,26,0.04)', paddingTop: '0.75rem' }}>
+                  <div className="spec-item-lbl">Care & Maintenance</div>
+                  <div className="spec-item-val" style={{ fontSize: '0.75rem', lineHeight: '1.4' }}>{product.care || "Dry clean only"}</div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* TAB CONTENT: LOOM JOURNEY TIMELINE */}
+          {activeTab === 'loom' && (
+            <div style={{ marginBottom: '2rem' }}>
+              <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', display: 'block', marginBottom: '1rem', fontStyle: 'italic' }}>
+                Tap on any step of the legacy lifecycle to read details:
+              </span>
+              
+              <div className="loom-stepper">
+                {STEPS.map((step, idx) => (
+                  <div 
+                    key={idx} 
+                    className={`loom-step ${activeStep === idx ? 'active' : ''}`}
+                    onClick={() => setActiveStep(idx)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <span className="loom-step-bullet" />
+                    <div className="loom-step-title" style={{ color: activeStep === idx ? 'var(--accent-gold-dark)' : 'var(--text-primary)' }}>
+                      {step.title}
+                    </div>
+                    <div className="loom-step-desc">
+                      {step.summary}
+                      {activeStep === idx && (
+                        <div 
+                          style={{ 
+                            marginTop: '0.5rem', 
+                            padding: '0.75rem 1rem', 
+                            background: 'var(--bg-secondary)', 
+                            borderRadius: '4px',
+                            color: 'var(--text-secondary)', 
+                            fontSize: '0.75rem',
+                            lineHeight: '1.5',
+                            borderLeft: '2px solid var(--accent-gold)'
+                          }}
+                        >
+                          {step.desc}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Stock Notification */}
           <div style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

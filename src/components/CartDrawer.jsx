@@ -5,6 +5,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, on
   const [isCheckoutMode, setIsCheckoutMode] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState('');
+  const [giftWrap, setGiftWrap] = useState(false);
   
   // Checkout Form states
   const [name, setName] = useState('');
@@ -15,6 +16,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, on
   const [postal, setPostal] = useState('');
 
   const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  const grandTotal = subtotal + (giftWrap ? 450 : 0);
 
   const handleQtyChange = (itemId, currentQty, amount, stockLimit) => {
     const newQty = currentQty + amount;
@@ -48,7 +50,8 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, on
         quantity: item.quantity,
         category: item.category
       })),
-      total: subtotal,
+      total: grandTotal,
+      giftWrap: giftWrap ? 'Yes (Sandalwood Cedar Chest)' : 'No',
       status: 'Pending',
       date: new Date().toLocaleDateString('en-IN', {
         year: 'numeric',
@@ -71,11 +74,13 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, on
     setAddress('');
     setCity('');
     setPostal('');
+    setGiftWrap(false); // Reset wrapping
   };
 
   const handleClose = () => {
     setIsCheckoutMode(false);
     setOrderPlaced(false);
+    setGiftWrap(false);
     onClose();
   };
 
@@ -118,8 +123,13 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, on
                 <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>Summary</span>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.5rem', fontFamily: 'var(--font-serif)', fontSize: '1.25rem' }}>
                   <span>Total Amount Due:</span>
-                  <span className="text-gold">₹{subtotal.toLocaleString('en-IN')}</span>
+                  <span className="text-gold">₹{grandTotal.toLocaleString('en-IN')}</span>
                 </div>
+                {giftWrap && (
+                  <div style={{ fontSize: '0.65rem', color: 'var(--accent-gold-dark)', marginTop: '0.25rem' }}>
+                    Includes Heritage Sandalwood Packaging (+₹450)
+                  </div>
+                )}
               </div>
 
               <div className="form-group">
@@ -294,9 +304,37 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQty, on
             </div>
 
             <div className="cart-footer">
+              {/* Premium Heritage Box Toggle */}
+              <div 
+                style={{ 
+                  display: 'flex', 
+                  alignItems: 'flex-start', 
+                  gap: '0.75rem', 
+                  padding: '1rem', 
+                  background: 'rgba(197, 168, 128, 0.05)', 
+                  border: '1px dashed var(--accent-gold)', 
+                  marginBottom: '1.5rem',
+                  cursor: 'pointer' 
+                }}
+                onClick={() => setGiftWrap(!giftWrap)}
+              >
+                <input 
+                  type="checkbox" 
+                  checked={giftWrap} 
+                  onChange={() => {}} // parent handled
+                  style={{ marginTop: '0.15rem', accentColor: 'var(--accent-gold)' }} 
+                />
+                <div>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)' }}>Heritage Sandalwood Packaging (+₹450)</div>
+                  <p style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', lineHeight: '1.3', marginTop: '0.15rem' }}>
+                    Sandalwood-infused custom muslin casing and double-layered red box storage to preserve pure gold zari threads from oxidation.
+                  </p>
+                </div>
+              </div>
+
               <div className="cart-total-row">
                 <span>Subtotal</span>
-                <span className="text-gold">₹{subtotal.toLocaleString('en-IN')}</span>
+                <span className="text-gold">₹{grandTotal.toLocaleString('en-IN')}</span>
               </div>
               <p style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', lineHeight: '1.4', marginBottom: '1.5rem' }}>
                 Handloom taxes and shipping charges calculated at checkout. Every parcel is insured and shipped with luxury custom packaging.

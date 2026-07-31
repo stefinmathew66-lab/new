@@ -72,7 +72,7 @@ export default function Hero({ onExploreClick }) {
         </p>
 
         <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem' }}>
-          <button onClick={onExploreClick} className="btn-premium" style={{ background: '#FFFFFF', color: 'var(--text-primary)', borderColor: '#FFFFFF' }}>
+          <button onClick={onExploreClick} className="btn-premium" style={{ background: '#FFFFFF', color: '#12100E', borderColor: '#FFFFFF' }}>
             View Catalog
           </button>
         </div>

@@ -40,6 +40,14 @@ export default function ProductCard({ product, onCardClick, onQuickAdd }) {
           className="product-img" 
           loading="lazy"
         />
+        {product.detailImage && (
+          <img 
+            src={product.detailImage} 
+            alt={`${product.title} Detail`} 
+            className="product-img-secondary" 
+            loading="lazy"
+          />
+        )}
 
         {/* Hover slide action */}
         {!isOutOfStock && (

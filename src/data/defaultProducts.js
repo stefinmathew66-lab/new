@@ -10,6 +10,7 @@ export const defaultProducts = [
     care: "Dry Clean Only. Store wrapped in clean muslin cloth in a cool, dry place.",
     stock: 5,
     image: "/images/silk_kanchipuram.png",
+    detailImage: "/images/silk_kanchipuram_detail.png",
     featured: true
   },
   {
@@ -23,6 +24,7 @@ export const defaultProducts = [
     care: "Dry Clean Only. Avoid direct perfume sprays on zari work.",
     stock: 3,
     image: "/images/banarasi_pink.png",
+    detailImage: "/images/banarasi_pink_detail.png",
     featured: true
   },
   {
@@ -36,6 +38,7 @@ export const defaultProducts = [
     care: "Dry Clean Only. Do not wring or press with high heat.",
     stock: 8,
     image: "/images/organza_mint.png",
+    detailImage: "/images/organza_mint_detail.png",
     featured: false
   },
   {
@@ -49,6 +52,7 @@ export const defaultProducts = [
     care: "Dry Clean or Gentle Handwash with mild liquid detergents. Iron while damp.",
     stock: 12,
     image: "/images/linen_beige.png",
+    detailImage: "/images/linen_beige_detail.png",
     featured: false
   },
   {
@@ -62,6 +66,7 @@ export const defaultProducts = [
     care: "Dry Clean Only. Store flat to prevent stretching of the weave.",
     stock: 4,
     image: "/images/georgette_indigo.png",
+    detailImage: "/images/georgette_indigo_detail.png",
     featured: true
   }
 ];

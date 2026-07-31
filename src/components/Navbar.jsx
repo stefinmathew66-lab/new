@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, User, Menu, X } from 'lucide-react';
+import { ShoppingBag, User, Menu, X, Sun, Moon } from 'lucide-react';
 
-export default function Navbar({ cartCount, onCartClick, onViewChange, currentView }) {
+export default function Navbar({ cartCount, onCartClick, onViewChange, currentView, atmosphere, onAtmosphereToggle }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -132,6 +132,35 @@ export default function Navbar({ cartCount, onCartClick, onViewChange, currentVi
 
           {/* Action Icons */}
           <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center', marginLeft: 'auto' }}>
+            {currentView === 'storefront' && (
+              <button
+                onClick={onAtmosphereToggle}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  color: 'var(--text-primary)',
+                  padding: '0.25rem',
+                  gap: '0.4rem'
+                }}
+                title={`Switch to ${atmosphere === 'ivory' ? 'Midnight Lounge' : 'Ivory Studio'}`}
+              >
+                {atmosphere === 'ivory' ? (
+                  <>
+                    <Moon size={18} strokeWidth={1.5} />
+                    <span style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600 }} className="nav-links-desktop">Lounge</span>
+                  </>
+                ) : (
+                  <>
+                    <Sun size={18} strokeWidth={1.5} />
+                    <span style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600 }} className="nav-links-desktop">Studio</span>
+                  </>
+                )}
+              </button>
+            )}
+
             {currentView === 'storefront' && (
               <button 
                 onClick={onCartClick}

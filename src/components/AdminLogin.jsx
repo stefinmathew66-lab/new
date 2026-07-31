@@ -27,10 +27,10 @@ export default function AdminLogin({ onLoginSuccess }) {
       }}
     >
       <div 
+        className="admin-login-card"
         style={{ 
           width: '100%', 
           maxWidth: '400px', 
-          background: '#FFFFFF', 
           border: '1px solid var(--border-color)', 
           boxShadow: 'var(--shadow-md)',
           padding: '3rem 2.5rem'
