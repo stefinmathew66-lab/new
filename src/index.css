@@ -130,6 +130,53 @@ h1, h2, h3, h4, h5, h6 {
   animation: loadTextIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s;
 }
 
+/* Velnora Logo styling for loading screen */
+.velnora-logo {
+  display: inline-flex;
+  align-items: baseline;
+  font-size: 5rem;
+  letter-spacing: -0.02em;
+  text-transform: lowercase;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  animation: loadTextIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s;
+}
+
+.velnora-logo .logo-letter {
+  display: inline-block;
+  line-height: 1;
+}
+
+.velnora-logo .logo-letter-v {
+  margin-right: -0.02em;
+}
+
+.velnora-logo .logo-letter-e {
+  margin-right: 0.04em;
+}
+
+.velnora-logo .logo-l-wrapper {
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+}
+
+.velnora-logo .logo-l-spacer {
+  visibility: hidden;
+  opacity: 0;
+  display: inline-block;
+}
+
+.velnora-logo .logo-l-svg {
+  position: absolute;
+  right: -0.12em;
+  bottom: -0.34em;
+  width: 2.3em;
+  height: 1.5em;
+  overflow: visible;
+  pointer-events: none;
+}
+
 .loader-bar-bg {
   width: 200px;
   height: 1px;
