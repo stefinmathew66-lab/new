@@ -30,7 +30,7 @@ export default function Loader({ onFinish }) {
   return (
     <div className={`loader-wrapper ${fadeOut ? 'fade-out' : ''}`}>
       <div className="loader-brand">
-        M A N M E E T G A Y
+        V E L N O R A
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div className="loader-bar-bg">
