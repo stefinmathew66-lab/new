@@ -1335,3 +1335,98 @@ h1, h2, h3, h4, h5, h6 {
     transform: translateY(0);
   }
 }
+
+/* Mobile Responsive Overrides */
+@media (max-width: 768px) {
+  /* Storefront Navbar mobile adjustments */
+  .nav-mobile-toggle {
+    display: flex !important;
+  }
+  .nav-links-desktop {
+    display: none !important;
+  }
+  .mobile-menu-drawer.open {
+    max-height: 250px !important;
+  }
+  
+  /* Logo padding adjustment */
+  .nav-logo-text {
+    font-size: 1.4rem !important;
+    padding-left: 0.5rem !important;
+    letter-spacing: 0.1em !important;
+  }
+  .nav-admin-label {
+    display: none !important; /* Hide admin text label on mobile, keep user icon */
+  }
+
+  /* Admin Dashboard Layout Mobile Refactor */
+  .admin-layout {
+    flex-direction: column !important;
+  }
+  .admin-sidebar {
+    width: 100% !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+    height: auto !important;
+  }
+  .admin-sidebar-header {
+    height: 60px !important;
+    justify-content: center !important;
+  }
+  .admin-sidebar-menu {
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    padding: 0.75rem 1rem !important;
+    gap: 0.5rem !important;
+  }
+  .admin-menu-item {
+    padding: 0.6rem 1rem !important;
+    font-size: 0.75rem !important;
+    white-space: nowrap !important;
+    width: auto !important;
+    justify-content: center !important;
+  }
+  .admin-navbar {
+    height: 60px !important;
+    padding: 0 1.5rem !important;
+  }
+  .admin-navbar h2 {
+    font-size: 1.1rem !important;
+  }
+  .admin-content {
+    padding: 1.5rem !important;
+  }
+  
+  /* Stats Cards Grid */
+  .admin-card-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    margin-bottom: 2rem !important;
+  }
+  
+  /* Tables horizontally scrollable */
+  .admin-table-container {
+    margin-bottom: 2rem !important;
+  }
+  
+  /* Slide out drawer forms */
+  .admin-panel-slider {
+    max-width: 100% !important;
+  }
+
+  /* Product Details Spec Sheet Grid */
+  .modal-specs {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Contact Form Adjustments */
+  .contact-section {
+    padding: 4rem 0 !important;
+  }
+  .contact-layout {
+    gap: 3rem !important;
+  }
+  .contact-form-card {
+    padding: 2rem 1.5rem !important;
+  }
+}
