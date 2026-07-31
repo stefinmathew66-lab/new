@@ -29,19 +29,14 @@ export default function Loader({ onFinish }) {
 
   return (
     <div className={`loader-wrapper ${fadeOut ? 'fade-out' : ''}`}>
-      <div className="loader-brand velnora-logo-text">
-        <span className="logo-letter logo-letter-v">v</span>
-        <span className="logo-letter logo-letter-e">e</span>
-        <span className="logo-l-wrapper logo-letter">
-          l
-          <svg className="logo-l-swash" viewBox="0 0 100 40" fill="currentColor">
-            <path d="M 92 2 C 75 16, 50 24, 25 22 C 12 20, 2 14, 0 8 C 3 13, 12 18, 25 18 C 50 20, 75 12, 92 2 Z" />
-          </svg>
-        </span>
-        <span className="logo-letter">n</span>
-        <span className="logo-letter">o</span>
-        <span className="logo-letter">r</span>
-        <span className="logo-letter">a</span>
+      <div className="loader-brand velnora-logo-spaced">
+        <span className="logo-letter">V</span>
+        <span className="logo-letter">E</span>
+        <span className="logo-letter">L</span>
+        <span className="logo-letter">N</span>
+        <span className="logo-letter">O</span>
+        <span className="logo-letter">R</span>
+        <span className="logo-letter">A</span>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div className="loader-bar-bg">

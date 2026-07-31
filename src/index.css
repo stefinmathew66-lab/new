@@ -131,76 +131,49 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Velnora Logo styling for loading screen */
-.velnora-logo-text {
+.velnora-logo-spaced {
   display: inline-flex;
   align-items: baseline;
+  justify-content: center;
   font-family: var(--font-serif);
-  font-size: 5.5rem;
-  letter-spacing: -0.015em;
-  text-transform: lowercase;
+  font-size: 3rem;
   color: var(--text-primary);
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   position: relative;
+  text-transform: uppercase;
   animation: none; /* Override default brand animation to use letter stagger */
   opacity: 1;      /* Override default brand opacity */
   transform: none; /* Override default brand transform */
 }
 
-.velnora-logo-text .logo-letter {
+.velnora-logo-spaced .logo-letter {
   display: inline-block;
   line-height: 1;
   opacity: 0;
   transform: translateY(12px);
   filter: blur(3px);
+  margin-right: 0.25em; /* Replicate letter-spacing: 0.25em */
   animation: fadeLetterIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+.velnora-logo-spaced .logo-letter:last-child {
+  margin-right: 0; /* Remove trailing margin to center correctly */
+}
+
 /* Staggered entrance animation for each letter */
-.velnora-logo-text .logo-letter:nth-child(1) { animation-delay: 0.15s; }
-.velnora-logo-text .logo-letter:nth-child(2) { animation-delay: 0.25s; }
-.velnora-logo-text .logo-letter:nth-child(3) { animation-delay: 0.35s; }
-.velnora-logo-text .logo-letter:nth-child(4) { animation-delay: 0.45s; }
-.velnora-logo-text .logo-letter:nth-child(5) { animation-delay: 0.55s; }
-.velnora-logo-text .logo-letter:nth-child(6) { animation-delay: 0.65s; }
-.velnora-logo-text .logo-letter:nth-child(7) { animation-delay: 0.75s; }
-
-.velnora-logo-text .logo-letter-v {
-  margin-right: -0.01em;
-}
-
-.velnora-logo-text .logo-letter-e {
-  margin-right: -0.02em; /* Sit the 'l' closer to 'e' to avoid layout gaps */
-}
-
-.velnora-logo-text .logo-l-wrapper {
-  position: relative;
-  display: inline-block;
-  line-height: 1;
-}
-
-.velnora-logo-text .logo-l-swash {
-  position: absolute;
-  left: 50%;
-  bottom: 0.08em; /* Position swash alignment at baseline */
-  width: 1.85em;   /* Extends under 'e' and 'v' */
-  height: auto;
-  transform: translateX(-88%) scaleX(0);
-  transform-origin: 92% center;
-  pointer-events: none;
-  animation: sweepSwash 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.9s;
-}
+.velnora-logo-spaced .logo-letter:nth-child(1) { animation-delay: 0.15s; }
+.velnora-logo-spaced .logo-letter:nth-child(2) { animation-delay: 0.25s; }
+.velnora-logo-spaced .logo-letter:nth-child(3) { animation-delay: 0.35s; }
+.velnora-logo-spaced .logo-letter:nth-child(4) { animation-delay: 0.45s; }
+.velnora-logo-spaced .logo-letter:nth-child(5) { animation-delay: 0.55s; }
+.velnora-logo-spaced .logo-letter:nth-child(6) { animation-delay: 0.65s; }
+.velnora-logo-spaced .logo-letter:nth-child(7) { animation-delay: 0.75s; }
 
 @keyframes fadeLetterIn {
   to {
     opacity: 1;
     transform: translateY(0);
     filter: blur(0);
-  }
-}
-
-@keyframes sweepSwash {
-  to {
-    transform: translateX(-88%) scaleX(1);
   }
 }
 
