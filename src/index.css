@@ -131,50 +131,77 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Velnora Logo styling for loading screen */
-.velnora-logo {
+.velnora-logo-text {
   display: inline-flex;
   align-items: baseline;
-  font-size: 5rem;
-  letter-spacing: -0.02em;
+  font-family: var(--font-serif);
+  font-size: 5.5rem;
+  letter-spacing: -0.015em;
   text-transform: lowercase;
   color: var(--text-primary);
-  margin-bottom: 2rem;
-  animation: loadTextIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s;
+  margin-bottom: 2.5rem;
+  position: relative;
+  animation: none; /* Override default brand animation to use letter stagger */
+  opacity: 1;      /* Override default brand opacity */
+  transform: none; /* Override default brand transform */
 }
 
-.velnora-logo .logo-letter {
+.velnora-logo-text .logo-letter {
   display: inline-block;
   line-height: 1;
+  opacity: 0;
+  transform: translateY(12px);
+  filter: blur(3px);
+  animation: fadeLetterIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.velnora-logo .logo-letter-v {
-  margin-right: -0.02em;
+/* Staggered entrance animation for each letter */
+.velnora-logo-text .logo-letter:nth-child(1) { animation-delay: 0.15s; }
+.velnora-logo-text .logo-letter:nth-child(2) { animation-delay: 0.25s; }
+.velnora-logo-text .logo-letter:nth-child(3) { animation-delay: 0.35s; }
+.velnora-logo-text .logo-letter:nth-child(4) { animation-delay: 0.45s; }
+.velnora-logo-text .logo-letter:nth-child(5) { animation-delay: 0.55s; }
+.velnora-logo-text .logo-letter:nth-child(6) { animation-delay: 0.65s; }
+.velnora-logo-text .logo-letter:nth-child(7) { animation-delay: 0.75s; }
+
+.velnora-logo-text .logo-letter-v {
+  margin-right: -0.01em;
 }
 
-.velnora-logo .logo-letter-e {
-  margin-right: 0.04em;
+.velnora-logo-text .logo-letter-e {
+  margin-right: -0.02em; /* Sit the 'l' closer to 'e' to avoid layout gaps */
 }
 
-.velnora-logo .logo-l-wrapper {
+.velnora-logo-text .logo-l-wrapper {
   position: relative;
   display: inline-block;
   line-height: 1;
 }
 
-.velnora-logo .logo-l-spacer {
-  visibility: hidden;
-  opacity: 0;
-  display: inline-block;
+.velnora-logo-text .logo-l-swash {
+  position: absolute;
+  left: 50%;
+  bottom: 0.08em; /* Position swash alignment at baseline */
+  width: 1.85em;   /* Extends under 'e' and 'v' */
+  height: auto;
+  transform: translateX(-88%) scaleX(0);
+  transform-origin: 92% center;
+  pointer-events: none;
+  animation: sweepSwash 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.9s;
 }
 
-.velnora-logo .logo-l-svg {
-  position: absolute;
-  right: -0.12em;
-  bottom: -0.34em;
-  width: 2.3em;
-  height: 1.5em;
-  overflow: visible;
-  pointer-events: none;
+@keyframes fadeLetterIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes sweepSwash {
+  to {
+    transform: translateX(-88%) scaleX(1);
+  }
 }
 
 .loader-bar-bg {

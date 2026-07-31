@@ -29,13 +29,13 @@ export default function Loader({ onFinish }) {
 
   return (
     <div className={`loader-wrapper ${fadeOut ? 'fade-out' : ''}`}>
-      <div className="loader-brand velnora-logo">
+      <div className="loader-brand velnora-logo-text">
         <span className="logo-letter logo-letter-v">v</span>
         <span className="logo-letter logo-letter-e">e</span>
-        <span className="logo-l-wrapper">
-          <span className="logo-l-spacer">l</span>
-          <svg className="logo-l-svg" viewBox="0 0 120 75" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M 97 10 H 105 V 13 H 102 V 50 C 102 58, 85 68, 50 68 C 25 68, 8 62, 2 54 C 0 51.5, 1 50, 3 50 C 5 50, 10 56, 25 61 C 45 66, 75 64, 98 51 V 13 H 97 Z" fill="currentColor" />
+        <span className="logo-l-wrapper logo-letter">
+          l
+          <svg className="logo-l-swash" viewBox="0 0 100 40" fill="currentColor">
+            <path d="M 92 2 C 75 16, 50 24, 25 22 C 12 20, 2 14, 0 8 C 3 13, 12 18, 25 18 C 50 20, 75 12, 92 2 Z" />
           </svg>
         </span>
         <span className="logo-letter">n</span>
