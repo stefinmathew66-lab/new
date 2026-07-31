@@ -37,101 +37,54 @@ export default function Navbar({ cartCount, onCartClick, onViewChange, currentVi
 
   return (
     <>
+      {/* Top Announcement Bar integrated with Navbar */}
       <nav className={`navbar-glass ${isScrolled ? 'scrolled' : ''}`}>
-        <div className="container" style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          
-          {/* Mobile Hamburger Toggle (Storefront only) */}
-          {currentView === 'storefront' && (
-            <button 
-              className="nav-mobile-toggle"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                color: 'var(--text-primary)',
-                display: 'none', // Managed by CSS media query
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '0.25rem'
-              }}
-            >
-              {isMobileMenuOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
-            </button>
-          )}
+        {/* Announcement Bar */}
+        <div className="announcement-bar">
+          <span>SILK MARK CERTIFIED</span>
+          <span className="bullet">✦</span>
+          <span>AUTHENTIC SAREES</span>
+          <span className="bullet">✦</span>
+          <span>FREE SHIPPING OVER ₹15,000</span>
+        </div>
 
-          {/* Brand Logo */}
+        {/* Row 1: Logo & Icons */}
+        <div className="nav-row-main container">
+          {/* Left Side: Mobile Toggle (Storefront only) */}
+          <div className="nav-col-left">
+            {currentView === 'storefront' && (
+              <button 
+                className="nav-mobile-toggle"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  color: 'var(--text-primary)',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '0.25rem'
+                }}
+              >
+                {isMobileMenuOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
+              </button>
+            )}
+          </div>
+
+          {/* Center Column: Logo */}
           <div 
             onClick={() => {
               onViewChange('storefront');
               setIsMobileMenuOpen(false);
             }}
-            style={{ 
-              fontFamily: 'var(--font-serif)', 
-              fontSize: '1.75rem', 
-              letterSpacing: '0.15em', 
-              fontWeight: '400',
-              cursor: 'pointer',
-              color: 'var(--text-primary)',
-              marginRight: 'auto',
-              paddingLeft: currentView === 'storefront' ? '1rem' : '0'
-            }}
             className="nav-logo-text"
+            style={{ cursor: 'pointer' }}
           >
             THE VELNORA
           </div>
 
-          {/* Desktop Navigation Links */}
-          {currentView === 'storefront' ? (
-            <div style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }} className="nav-links-desktop">
-              <span 
-                onClick={() => handleNavClick('hero')} 
-                style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.12em', cursor: 'pointer', fontWeight: 500, color: 'var(--text-secondary)' }}
-                onMouseOver={(e) => e.target.style.color = 'var(--text-primary)'}
-                onMouseOut={(e) => e.target.style.color = 'var(--text-secondary)'}
-              >
-                Home
-              </span>
-              <span 
-                onClick={() => handleNavClick('shop')} 
-                style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.12em', cursor: 'pointer', fontWeight: 500, color: 'var(--text-secondary)' }}
-                onMouseOver={(e) => e.target.style.color = 'var(--text-primary)'}
-                onMouseOut={(e) => e.target.style.color = 'var(--text-secondary)'}
-              >
-                Collection
-              </span>
-              <span 
-                onClick={() => handleNavClick('heritage')} 
-                style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.12em', cursor: 'pointer', fontWeight: 500, color: 'var(--text-secondary)' }}
-                onMouseOver={(e) => e.target.style.color = 'var(--text-primary)'}
-                onMouseOut={(e) => e.target.style.color = 'var(--text-secondary)'}
-              >
-                Heritage
-              </span>
-              <span 
-                onClick={() => handleNavClick('contact')} 
-                style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.12em', cursor: 'pointer', fontWeight: 500, color: 'var(--text-secondary)' }}
-                onMouseOver={(e) => e.target.style.color = 'var(--text-primary)'}
-                onMouseOut={(e) => e.target.style.color = 'var(--text-secondary)'}
-              >
-                Contact
-              </span>
-            </div>
-          ) : (
-            <div style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }} className="nav-links-desktop">
-              <span 
-                onClick={() => onViewChange('storefront')} 
-                style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.12em', cursor: 'pointer', fontWeight: 500, color: 'var(--text-secondary)' }}
-                onMouseOver={(e) => e.target.style.color = 'var(--text-primary)'}
-                onMouseOut={(e) => e.target.style.color = 'var(--text-secondary)'}
-              >
-                ← Back to Store
-              </span>
-            </div>
-          )}
-
-          {/* Action Icons */}
-          <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center', marginLeft: 'auto' }}>
+          {/* Right Column: Actions */}
+          <div className="nav-col-right">
             {currentView === 'storefront' && (
               <button
                 onClick={onAtmosphereToggle}
@@ -222,8 +175,21 @@ export default function Navbar({ cartCount, onCartClick, onViewChange, currentVi
               </span>
             </button>
           </div>
-
         </div>
+
+        {/* Row 2: Desktop Menu Links */}
+        {currentView === 'storefront' ? (
+          <div className="nav-row-links nav-links-desktop">
+            <span onClick={() => handleNavClick('hero')} className="nav-link-item">Home</span>
+            <span onClick={() => handleNavClick('shop')} className="nav-link-item">Collection</span>
+            <span onClick={() => handleNavClick('heritage')} className="nav-link-item">Heritage</span>
+            <span onClick={() => handleNavClick('contact')} className="nav-link-item">Contact</span>
+          </div>
+        ) : (
+          <div className="nav-row-links nav-links-desktop">
+            <span onClick={() => onViewChange('storefront')} className="nav-link-item">← Back to Store</span>
+          </div>
+        )}
       </nav>
 
       {/* Slide Down Mobile Menu */}

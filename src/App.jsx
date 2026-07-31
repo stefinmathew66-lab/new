@@ -297,8 +297,55 @@ export default function App() {
           {currentView === 'storefront' && (
             <main style={{ marginTop: 'var(--nav-height)' }}>
               
+              {/* Category Circles Row */}
+              <div className="category-circles-container">
+                <div className="container">
+                  <div className="category-circles-grid">
+                    {[
+                      { name: 'Silk', label: 'Silk Weaves', img: '/images/silk_kanchipuram.png' },
+                      { name: 'Banarasi', label: 'Banarasi Silk', img: '/images/banarasi_pink.png' },
+                      { name: 'Organza', label: 'Organza', img: '/images/organza_mint.png' },
+                      { name: 'Linen', label: 'Organic Linen', img: '/images/linen_beige.png' },
+                      { name: 'Georgette', label: 'Georgette', img: '/images/georgette_indigo.png' },
+                    ].map((cat) => (
+                      <div 
+                        key={cat.name} 
+                        className={`category-circle-card ${selectedCategory === cat.name ? 'active' : ''}`}
+                        onClick={() => {
+                          setSelectedCategory(cat.name);
+                          handleExploreClick();
+                        }}
+                      >
+                        <div className="circle-image-frame">
+                          <img src={cat.img} alt={cat.label} />
+                        </div>
+                        <span className="circle-label">{cat.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
               {/* Hero Banner Section */}
               <Hero onExploreClick={handleExploreClick} />
+
+              {/* Ticker / Marquee Banner */}
+              <div className="ticker-marquee-bar">
+                <div className="ticker-marquee-content">
+                  {[1, 2, 3].map((i) => (
+                    <span key={i} className="ticker-segment">
+                      <span>✦ THE VELNORA LUXURY SAREES</span>
+                      <span className="bullet">✦</span>
+                      <span>100% CERTIFIED SILK MARK</span>
+                      <span className="bullet">✦</span>
+                      <span>DIRECT FROM ARTISAN WEAVERS</span>
+                      <span className="bullet">✦</span>
+                      <span>WORLDWIDE EXPRESS DELIVERY</span>
+                      <span className="bullet">✦</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
 
               {/* Collections Grid Catalog */}
               <section id="shop" style={{ padding: '8rem 0', backgroundColor: 'var(--bg-primary)' }}>
@@ -346,6 +393,15 @@ export default function App() {
                       </div>
                     )}
                   </div>
+
+                  {/* Centered VIEW ALL reset button */}
+                  {selectedCategory !== 'All' && (
+                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3.5rem' }}>
+                      <button className="btn-premium reset-view-btn" onClick={() => setSelectedCategory('All')}>
+                        VIEW ALL
+                      </button>
+                    </div>
+                  )}
                 </div>
               </section>
 

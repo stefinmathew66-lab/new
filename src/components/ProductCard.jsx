@@ -5,6 +5,15 @@ export default function ProductCard({ product, onCardClick, onQuickAdd }) {
   const isLowStock = product.stock <= 3 && product.stock > 0;
   const isOutOfStock = product.stock === 0;
 
+  // Generate realistic mock discount/original price
+  let discount = 30;
+  if (product.id === 'prod-2') discount = 35;
+  if (product.id === 'prod-3') discount = 40;
+  if (product.id === 'prod-4') discount = 25;
+  if (product.id === 'prod-5') discount = 45;
+  
+  const originalPrice = Math.round((product.price / (1 - discount / 100)) / 100) * 100;
+
   const handleQuickAdd = (e) => {
     e.stopPropagation();
     if (!isOutOfStock) {
@@ -20,18 +29,14 @@ export default function ProductCard({ product, onCardClick, onQuickAdd }) {
       <div className="product-image-container">
         {/* Badge flags */}
         {isOutOfStock ? (
-          <div className="product-badge" style={{ color: '#C62828', borderColor: '#FFCDD2', background: 'rgba(255,235,235,0.9)' }}>
+          <div className="product-badge sold-out">
             Sold Out
           </div>
-        ) : isLowStock ? (
-          <div className="product-badge" style={{ color: '#E65100', borderColor: '#FFE0B2', background: 'rgba(255,243,224,0.9)' }}>
-            Only {product.stock} Left
+        ) : (
+          <div className="product-badge save-badge">
+            SAVE {discount}%
           </div>
-        ) : product.featured ? (
-          <div className="product-badge">
-            Signature Piece
-          </div>
-        ) : null}
+        )}
 
         {/* Product image */}
         <img 
@@ -65,19 +70,13 @@ export default function ProductCard({ product, onCardClick, onQuickAdd }) {
         )}
       </div>
 
-      {/* Text meta details */}
-      <div className="product-meta">
-        <div>
-          <h3 className="product-title">{product.title}</h3>
-          <span className="product-type">{product.category} Saree</span>
-        </div>
-        <div style={{ textAlign: 'right' }}>
-          <span className="product-price">₹{product.price.toLocaleString('en-IN')}</span>
-          {product.material && (
-            <div style={{ fontSize: '0.6rem', color: 'var(--text-secondary)', marginTop: '0.2rem', letterSpacing: '0.05em' }}>
-              {product.material.split(' ').slice(-2).join(' ')}
-            </div>
-          )}
+      {/* Text meta details - centered layout */}
+      <div className="product-meta centered-meta">
+        <h3 className="product-title">{product.title}</h3>
+        <span className="product-type">{product.category} Saree</span>
+        <div className="product-price-row">
+          <span className="product-price-sale">₹{product.price.toLocaleString('en-IN')}</span>
+          <span className="product-price-original">₹{originalPrice.toLocaleString('en-IN')}</span>
         </div>
       </div>
     </div>
