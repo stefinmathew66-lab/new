@@ -2142,3 +2142,33 @@ body.theme-midnight .product-price-sale {
   }
 }
 
+/* Category Banners Showcase Styles */
+.category-showcase-row {
+  margin-bottom: 2rem;
+}
+
+.showcase-image-container:hover img {
+  transform: scale(1.05) !important;
+}
+
+.showcase-image-container:hover .showcase-img-overlay {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+
+@media (max-width: 768px) {
+  .category-showcase-row {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+  .showcase-image-container {
+    order: 0 !important;
+    max-height: 380px !important;
+  }
+  .category-showcase-row > div:nth-child(2) {
+    text-align: left !important;
+  }
+  .category-showcase-row p {
+    margin-left: 0 !important;
+  }
+}
+
