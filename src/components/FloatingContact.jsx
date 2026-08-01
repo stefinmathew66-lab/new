@@ -49,6 +49,9 @@ export default function FloatingContact() {
 
       </div>
 
+      {/* Small "Contact Us" label just above trigger */}
+      <span className="floating-contact-label">Contact Us</span>
+
       {/* Main trigger button */}
       <button 
         className="floating-contact-trigger" 

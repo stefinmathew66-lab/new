@@ -5,11 +5,8 @@
   bottom: 2rem;
   right: 2rem;
   z-index: 999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
   width: 60px;
+  height: 60px;
   pointer-events: none; /* Let hover events trigger on specific buttons only */
 }
 
@@ -39,13 +36,16 @@
 
 /* Vertical Popout Menu Options container */
 .floating-contact-options {
+  position: absolute;
+  bottom: 72px; /* 60px trigger height + 12px gap */
+  left: 50%;
+  transform: translateX(-50%) translateY(15px) scale(0.85);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   align-items: center;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(15px) scale(0.85);
   transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -54,7 +54,37 @@
 .floating-contact-container.is-open .floating-contact-options {
   opacity: 1;
   pointer-events: auto;
-  transform: translateY(0) scale(1);
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+/* Small "Contact Us" label just above trigger */
+.floating-contact-label {
+  position: absolute;
+  bottom: 72px; /* 60px trigger height + 12px gap */
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
+  border: 1px solid var(--border-gold);
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.35rem 0.7rem;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(27, 51, 44, 0.15);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Hide label on hover/open */
+.floating-contact-container:hover .floating-contact-label,
+.floating-contact-container.is-open .floating-contact-label {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-10px);
 }
 
 /* Option Buttons style */
@@ -93,7 +123,7 @@
     bottom: 1.5rem;
     right: 1.5rem;
     width: 50px;
-    gap: 0.6rem;
+    height: 50px;
   }
   .floating-contact-trigger {
     width: 50px;
@@ -102,6 +132,14 @@
   .floating-contact-trigger svg {
     width: 20px;
     height: 20px;
+  }
+  .floating-contact-options {
+    bottom: 60px; /* 50px trigger + 10px gap */
+  }
+  .floating-contact-label {
+    bottom: 60px;
+    font-size: 0.55rem;
+    padding: 0.25rem 0.5rem;
   }
   .contact-option-btn {
     width: 42px;
