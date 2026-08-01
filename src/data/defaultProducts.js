@@ -2,7 +2,8 @@ export const defaultProducts = [
   {
     id: "prod-1",
     title: "Aura of Kanchi",
-    category: "Silk",
+    category: "Sarees",
+    subcategory: "Silk",
     price: 24500,
     description: "A majestic royal crimson red and antique gold Kanchipuram silk saree, hand-woven with pure zari threads. Reflecting centuries of heritage, this masterpiece features a traditional temple border, dense brocade pallu, and high-density gold weaving.",
     material: "100% Pure Kanchipuram Silk",
@@ -16,7 +17,8 @@ export const defaultProducts = [
   {
     id: "prod-2",
     title: "Roseate Banaras",
-    category: "Banarasi",
+    category: "Sarees",
+    subcategory: "Banarasi",
     price: 28900,
     description: "An exquisite blush pink Banarasi silk saree, featuring fine silver zari thread embroidery and elaborate floral bootis. Woven in the ancient lanes of Varanasi, it features a heavy border and detailed pallu depicting Mughal floral motifs.",
     material: "Pure Banarasi Katan Silk",
@@ -30,7 +32,8 @@ export const defaultProducts = [
   {
     id: "prod-3",
     title: "Mint Whisper",
-    category: "Organza",
+    category: "Sarees",
+    subcategory: "Organza",
     price: 16800,
     description: "A premium, light-as-air translucent organza saree in soothing mint green. It is detailed with a delicate hand-crafted scalloped gold border and pastel floral embroidery, offering a perfect blend of modern minimalism and traditional craft.",
     material: "Premium Italian Organza Silk Blend",
@@ -44,7 +47,8 @@ export const defaultProducts = [
   {
     id: "prod-4",
     title: "Ivory Zen Linen",
-    category: "Linen",
+    category: "Sarees",
+    subcategory: "Linen",
     price: 9500,
     description: "A minimalist, highly breathable linen-silk saree accented with vertical gold stripes and thin metallic silver lines. Tailored for daytime elegance, warm weather, and understated minimalist luxury.",
     material: "80% Organic Linen, 20% Mulberry Silk",
@@ -58,7 +62,8 @@ export const defaultProducts = [
   {
     id: "prod-5",
     title: "Midnight Indigo",
-    category: "Georgette",
+    category: "Sarees",
+    subcategory: "Georgette",
     price: 19200,
     description: "Deep indigo blue pure Georgette saree that drapes in dramatic royal folds, highlighted by an ornate, heavy antique gold zari border. Ideal for luxurious evening events and timeless elegance.",
     material: "Pure Silk Georgette",
@@ -67,6 +72,48 @@ export const defaultProducts = [
     stock: 4,
     image: "/images/georgette_indigo.png",
     detailImage: "/images/georgette_indigo_detail.png",
+    featured: true
+  },
+  {
+    id: "prod-6",
+    title: "Aura Linen Dress",
+    category: "Summer",
+    price: 7200,
+    description: "A lightweight, breathable organic linen slip dress styled in ivory and sand tones. Perfect for warm summer afternoons and effortless luxury.",
+    material: "100% Organic Linen",
+    zari: "None",
+    care: "Gentle Handwash or dry clean.",
+    stock: 6,
+    image: "/images/summer_dress.png",
+    detailImage: "/images/summer_dress_detail.png",
+    featured: true
+  },
+  {
+    id: "prod-7",
+    title: "Zoya Silk Anarkali",
+    category: "Suits",
+    price: 14500,
+    description: "A premium gold-embroidered mulberry silk Anarkali suit set, complete with matching churidar and a sheer organza dupatta.",
+    material: "Mulberry Silk & Organza Dupatta",
+    zari: "Fine Gold Thread Embroidery",
+    care: "Dry Clean Only.",
+    stock: 4,
+    image: "/images/suit_anarkali.png",
+    detailImage: "/images/suit_anarkali_detail.png",
+    featured: true
+  },
+  {
+    id: "prod-8",
+    title: "Siena Silk Co-ord",
+    category: "Co-ords",
+    price: 8900,
+    description: "A high-fashion luxury printed silk co-ord set, featuring a relaxed-fit camp collar shirt and matching wide-leg trousers.",
+    material: "100% Mulberry Silk Crepe",
+    zari: "None",
+    care: "Dry Clean Only.",
+    stock: 5,
+    image: "/images/coord_set.png",
+    detailImage: "/images/coord_set_detail.png",
     featured: true
   }
 ];

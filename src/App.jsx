@@ -23,6 +23,7 @@ export default function App() {
 
   // UI Interactive States
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedSubCategory, setSelectedSubCategory] = useState('All');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [atmosphere, setAtmosphere] = useState('midnight'); // 'ivory' or 'midnight'
@@ -261,9 +262,11 @@ export default function App() {
   };
 
   // Filter products by selected tab
-  const filteredProducts = selectedCategory === 'All'
-    ? products
-    : products.filter((p) => p.category.toLowerCase() === selectedCategory.toLowerCase());
+  const filteredProducts = products.filter((p) => {
+    const matchesCategory = selectedCategory === 'All' || p.category.toLowerCase() === selectedCategory.toLowerCase();
+    const matchesSubCategory = selectedCategory.toLowerCase() !== 'sarees' || selectedSubCategory === 'All' || (p.subcategory && p.subcategory.toLowerCase() === selectedSubCategory.toLowerCase());
+    return matchesCategory && matchesSubCategory;
+  });
 
   // View switches
   const handleExploreClick = () => {
@@ -302,17 +305,17 @@ export default function App() {
                 <div className="container">
                   <div className="category-circles-grid">
                     {[
-                      { name: 'Silk', label: 'Silk Weaves', img: '/images/silk_kanchipuram.png' },
-                      { name: 'Banarasi', label: 'Banarasi Silk', img: '/images/banarasi_pink.png' },
-                      { name: 'Organza', label: 'Organza', img: '/images/organza_mint.png' },
-                      { name: 'Linen', label: 'Organic Linen', img: '/images/linen_beige.png' },
-                      { name: 'Georgette', label: 'Georgette', img: '/images/georgette_indigo.png' },
+                      { name: 'Summer', label: 'Summer Collection', img: '/images/summer_dress.png' },
+                      { name: 'Sarees', label: 'Heritage Sarees', img: '/images/silk_kanchipuram.png' },
+                      { name: 'Suits', label: 'Ethnic Suits', img: '/images/suit_anarkali.png' },
+                      { name: 'Co-ords', label: 'Co-ord Sets', img: '/images/coord_set.png' },
                     ].map((cat) => (
                       <div 
                         key={cat.name} 
                         className={`category-circle-card ${selectedCategory === cat.name ? 'active' : ''}`}
                         onClick={() => {
                           setSelectedCategory(cat.name);
+                          setSelectedSubCategory('All');
                           handleExploreClick();
                         }}
                       >
@@ -364,16 +367,47 @@ export default function App() {
 
                   {/* Filter Categories */}
                   <div className="filter-container reveal">
-                    {['All', 'Silk', 'Banarasi', 'Organza', 'Linen', 'Georgette'].map((cat) => (
+                    {['All', 'Summer', 'Sarees', 'Suits', 'Co-ords'].map((cat) => (
                       <button
                         key={cat}
                         className={`filter-tab ${selectedCategory === cat ? 'active' : ''}`}
-                        onClick={() => setSelectedCategory(cat)}
+                        onClick={() => {
+                          setSelectedCategory(cat);
+                          setSelectedSubCategory('All');
+                        }}
                       >
-                        {cat === 'All' ? 'All Weaves' : `${cat}`}
+                        {cat === 'All' ? 'All Pieces' : `${cat}`}
                       </button>
                     ))}
                   </div>
+
+                  {/* Subcategories (Sarees only) */}
+                  {selectedCategory.toLowerCase() === 'sarees' && (
+                    <div className="reveal" style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '0.75rem', marginTop: '-1.5rem', marginBottom: '2.5rem' }}>
+                      {['All', 'Silk', 'Banarasi', 'Organza', 'Linen', 'Georgette'].map((sub) => (
+                        <button
+                          key={sub}
+                          onClick={() => setSelectedSubCategory(sub)}
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            fontSize: '0.7rem',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.08em',
+                            color: selectedSubCategory === sub ? 'var(--accent-gold-dark)' : 'var(--text-secondary)',
+                            borderBottom: selectedSubCategory === sub ? '2px solid var(--accent-gold-dark)' : '2px solid transparent',
+                            paddingBottom: '0.25rem',
+                            fontFamily: 'var(--font-sans)',
+                            fontWeight: 600,
+                            transition: 'var(--transition-fast)'
+                          }}
+                        >
+                          {sub === 'All' ? 'All Saree Types' : sub}
+                        </button>
+                      ))}
+                    </div>
+                  )}
 
                   {/* Products Grid */}
                   <div className="saree-grid">
@@ -600,10 +634,10 @@ export default function App() {
                     <div>
                       <h4 className="footer-title">Heritage Collections</h4>
                       <ul className="footer-links">
-                        <li className="footer-link" onClick={() => { setSelectedCategory('Silk'); handleExploreClick(); }}>Kanchipuram Silks</li>
-                        <li className="footer-link" onClick={() => { setSelectedCategory('Banarasi'); handleExploreClick(); }}>Banarasi Brocades</li>
-                        <li className="footer-link" onClick={() => { setSelectedCategory('Organza'); handleExploreClick(); }}>Fine Organza & Tissue</li>
-                        <li className="footer-link" onClick={() => { setSelectedCategory('Linen'); handleExploreClick(); }}>Minimalist Linens</li>
+                        <li className="footer-link" onClick={() => { setSelectedCategory('Summer'); setSelectedSubCategory('All'); handleExploreClick(); }}>Summer Collection</li>
+                        <li className="footer-link" onClick={() => { setSelectedCategory('Sarees'); setSelectedSubCategory('All'); handleExploreClick(); }}>Heritage Sarees</li>
+                        <li className="footer-link" onClick={() => { setSelectedCategory('Suits'); setSelectedSubCategory('All'); handleExploreClick(); }}>Luxury Suits</li>
+                        <li className="footer-link" onClick={() => { setSelectedCategory('Co-ords'); setSelectedSubCategory('All'); handleExploreClick(); }}>Modern Co-ords</li>
                       </ul>
                     </div>
 

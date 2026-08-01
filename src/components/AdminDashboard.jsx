@@ -42,7 +42,8 @@ export default function AdminDashboard({
 
   // Form Fields State
   const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('Silk');
+  const [category, setCategory] = useState('Sarees');
+  const [subcategory, setSubcategory] = useState('Silk');
   const [price, setPrice] = useState('');
   const [stock, setStock] = useState('');
   const [description, setDescription] = useState('');
@@ -73,7 +74,8 @@ export default function AdminDashboard({
   const handleOpenAddForm = () => {
     setEditingProduct(null);
     setTitle('');
-    setCategory('Silk');
+    setCategory('Sarees');
+    setSubcategory('Silk');
     setPrice('');
     setStock('');
     setDescription('');
@@ -89,7 +91,8 @@ export default function AdminDashboard({
   const handleOpenEditForm = (product) => {
     setEditingProduct(product);
     setTitle(product.title);
-    setCategory(product.category);
+    setCategory(product.category || 'Sarees');
+    setSubcategory(product.subcategory || 'Silk');
     setPrice(product.price.toString());
     setStock(product.stock.toString());
     setDescription(product.description || '');
@@ -123,6 +126,7 @@ export default function AdminDashboard({
     const productPayload = {
       title,
       category,
+      subcategory: category.toLowerCase() === 'sarees' ? subcategory : '',
       price: parseFloat(price),
       stock: parseInt(stock, 10),
       description,
@@ -633,12 +637,28 @@ export default function AdminDashboard({
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                 >
-                  <option value="Silk">Kanchipuram Silk</option>
-                  <option value="Banarasi">Banarasi Silk</option>
-                  <option value="Organza">Organza & Tissue</option>
-                  <option value="Linen">Linen & Cotton</option>
-                  <option value="Georgette">Georgette & Chiffon</option>
+                  <option value="Sarees">Sarees</option>
+                  <option value="Summer">Summer</option>
+                  <option value="Suits">Suits</option>
+                  <option value="Co-ords">Co-ords</option>
                 </select>
+
+                {category.toLowerCase() === 'sarees' && (
+                  <div style={{ marginTop: '1rem' }}>
+                    <label className="form-label">Saree Type (Subcategory)</label>
+                    <select 
+                      className="admin-select"
+                      value={subcategory}
+                      onChange={(e) => setSubcategory(e.target.value)}
+                    >
+                      <option value="Silk">Kanchipuram Silk</option>
+                      <option value="Banarasi">Banarasi Silk</option>
+                      <option value="Organza">Organza & Tissue</option>
+                      <option value="Linen">Linen & Cotton</option>
+                      <option value="Georgette">Georgette & Chiffon</option>
+                    </select>
+                  </div>
+                )}
               </div>
 
               <div className="form-group">
