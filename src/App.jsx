@@ -27,6 +27,24 @@ export default function App() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [atmosphere, setAtmosphere] = useState('midnight'); // 'ivory' or 'midnight'
+  const [showcaseSlideIndices, setShowcaseSlideIndices] = useState({
+    Summer: 0,
+    Sarees: 0,
+    Suits: 0,
+    'Co-ords': 0
+  });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setShowcaseSlideIndices((prev) => ({
+        Summer: (prev.Summer + 1) % 2,
+        Sarees: (prev.Sarees + 1) % 6,
+        Suits: (prev.Suits + 1) % 2,
+        'Co-ords': (prev['Co-ords'] + 1) % 2
+      }));
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     if (atmosphere === 'midnight') {
@@ -384,7 +402,7 @@ export default function App() {
                           title: 'Summer Collection',
                           subtitle: 'Effortless Minimalist Silhouettes',
                           desc: 'Breezy organic linens, sand tones, and lightweight slip dresses styled for warm days and effortless resort luxury.',
-                          img: '/images/summer_dress.png',
+                          images: ['/images/summer_dress.png', '/images/summer_dress_detail.png'],
                           action: 'EXPLORE SUMMER'
                         },
                         {
@@ -392,7 +410,14 @@ export default function App() {
                           title: 'Heritage Sarees',
                           subtitle: 'Artisanal Handlooms & Pure Zari',
                           desc: 'Masterpieces woven in pure Kanchipuram and Banarasi silk, certified for purity, and detailed with metallic gold work.',
-                          img: '/images/silk_kanchipuram.png',
+                          images: [
+                            '/images/silk_kanchipuram.png', 
+                            '/images/silk_kanchipuram_detail.png', 
+                            '/images/banarasi_pink.png', 
+                            '/images/banarasi_pink_detail.png',
+                            '/images/organza_mint.png',
+                            '/images/organza_mint_detail.png'
+                          ],
                           action: 'EXPLORE SAREES'
                         },
                         {
@@ -400,7 +425,7 @@ export default function App() {
                           title: 'Luxury Suits',
                           subtitle: 'Ornate Traditional Suit Sets',
                           desc: 'Gilded embroidery, pure mulberry silks, and sheer organza dupatta sets curated for luxury and traditional style.',
-                          img: '/images/suit_anarkali.png',
+                          images: ['/images/suit_anarkali.png', '/images/suit_anarkali_detail.png'],
                           action: 'EXPLORE SUITS'
                         },
                         {
@@ -408,7 +433,7 @@ export default function App() {
                           title: 'Printed Co-ord Sets',
                           subtitle: 'Modern Silk Crepe Coordinates',
                           desc: 'Contemporary matching sets featuring relaxed-fit camp collar shirts and wide-leg trousers in flowing premium silk.',
-                          img: '/images/coord_set.png',
+                          images: ['/images/coord_set.png', '/images/coord_set_detail.png'],
                           action: 'EXPLORE CO-ORDS'
                         }
                       ].map((sec, idx) => (
@@ -437,11 +462,25 @@ export default function App() {
                               boxShadow: 'var(--shadow-md)'
                             }}
                           >
-                            <img 
-                              src={sec.img} 
-                              alt={sec.title} 
-                              style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 1.2s ease' }} 
-                            />
+                            {sec.images.map((imgUrl, iIndex) => (
+                              <img 
+                                key={imgUrl}
+                                src={imgUrl} 
+                                alt={sec.title} 
+                                style={{ 
+                                  position: 'absolute',
+                                  top: 0,
+                                  left: 0,
+                                  width: '100%',
+                                  height: '100%',
+                                  objectFit: 'cover',
+                                  opacity: showcaseSlideIndices[sec.id] === iIndex ? 1 : 0,
+                                  transition: 'opacity 1.2s ease-in-out',
+                                  zIndex: showcaseSlideIndices[sec.id] === iIndex ? 2 : 1,
+                                  transform: 'scale(1.01)'
+                                }} 
+                              />
+                            ))}
                             <div style={{
                               position: 'absolute',
                               top: 0,
@@ -449,7 +488,8 @@ export default function App() {
                               width: '100%',
                               height: '100%',
                               backgroundColor: 'rgba(0,0,0,0.1)',
-                              transition: 'background-color 0.4s ease'
+                              transition: 'background-color 0.4s ease',
+                              zIndex: 3
                             }} className="showcase-img-overlay" />
                           </div>
 
