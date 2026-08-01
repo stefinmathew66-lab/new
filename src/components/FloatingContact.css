@@ -1,0 +1,114 @@
+/* Floating Contact Menu Styles */
+
+.floating-contact-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 60px;
+  pointer-events: none; /* Let hover events trigger on specific buttons only */
+}
+
+/* Main trigger button */
+.floating-contact-trigger {
+  pointer-events: auto;
+  width: 60px;
+  height: 60px;
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(27, 51, 44, 0.2);
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.floating-contact-trigger:hover {
+  transform: scale(1.08);
+  background-color: var(--accent-gold-dark);
+  border-color: var(--accent-gold-dark);
+}
+
+/* Vertical Popout Menu Options container */
+.floating-contact-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(15px) scale(0.85);
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Pop out options logic */
+.floating-contact-container:hover .floating-contact-options,
+.floating-contact-container.is-open .floating-contact-options {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+/* Option Buttons style */
+.contact-option-btn {
+  pointer-events: auto;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+}
+
+.contact-option-btn:hover {
+  transform: scale(1.1) translateY(-2px);
+}
+
+/* Brand backgrounds */
+.contact-option-btn.whatsapp {
+  background-color: #25D366;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
+}
+
+.contact-option-btn.instagram {
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+  box-shadow: 0 4px 15px rgba(214, 36, 159, 0.35);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .floating-contact-container {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 50px;
+    gap: 0.6rem;
+  }
+  .floating-contact-trigger {
+    width: 50px;
+    height: 50px;
+  }
+  .floating-contact-trigger svg {
+    width: 20px;
+    height: 20px;
+  }
+  .contact-option-btn {
+    width: 42px;
+    height: 42px;
+  }
+  .contact-option-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+}
