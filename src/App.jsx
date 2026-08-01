@@ -410,31 +410,146 @@ export default function App() {
                   )}
 
                   {/* Products Grid */}
-                  <div className="saree-grid">
-                    {filteredProducts.map((product) => (
-                      <ProductCard 
-                        key={product.id}
-                        product={product}
-                        onCardClick={setSelectedProduct}
-                        onQuickAdd={handleAddToCart}
-                      />
-                    ))}
-                    {filteredProducts.length === 0 && (
-                      <div style={{ gridColumn: 'span 3', textAlign: 'center', padding: '5rem 0', color: 'var(--text-secondary)' }}>
-                        <Compass size={32} style={{ color: 'var(--accent-gold)', marginBottom: '1rem' }} />
-                        <h4 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', marginBottom: '0.5rem' }}>No Weaves Found</h4>
-                        <p style={{ fontSize: '0.85rem' }}>We are weaving new designs. Check back shortly.</p>
+                  {selectedCategory === 'All' ? (
+                    /* SECTIONAL LANDING PAGE VIEW */
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6rem' }}>
+                      
+                      {/* 1. Sarees Collection Section */}
+                      <div className="reveal" style={{ borderTop: '1px solid var(--border-color)', paddingTop: '4rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
+                          <div>
+                            <span className="uppercase-track text-gold" style={{ fontSize: '0.65rem' }}>Heritage Weaves</span>
+                            <h3 style={{ fontSize: '2rem', fontFamily: 'var(--font-serif)', marginTop: '0.25rem' }}>Legacy Sarees</h3>
+                          </div>
+                          <button 
+                            className="btn-premium-outline" 
+                            style={{ padding: '0.5rem 1.25rem', fontSize: '0.7rem' }}
+                            onClick={() => { setSelectedCategory('Sarees'); setSelectedSubCategory('All'); handleExploreClick(); }}
+                          >
+                            VIEW ALL SAREES
+                          </button>
+                        </div>
+                        <div className="saree-grid">
+                          {products.filter(p => p.category.toLowerCase() === 'sarees').slice(0, 3).map((product) => (
+                            <ProductCard 
+                              key={product.id}
+                              product={product}
+                              onCardClick={setSelectedProduct}
+                              onQuickAdd={handleAddToCart}
+                            />
+                          ))}
+                        </div>
                       </div>
-                    )}
-                  </div>
 
-                  {/* Centered VIEW ALL reset button */}
-                  {selectedCategory !== 'All' && (
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3.5rem' }}>
-                      <button className="btn-premium reset-view-btn" onClick={() => setSelectedCategory('All')}>
-                        VIEW ALL
-                      </button>
+                      {/* 2. Summer Collection Section */}
+                      <div className="reveal" style={{ borderTop: '1px solid var(--border-color)', paddingTop: '4rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
+                          <div>
+                            <span className="uppercase-track text-gold" style={{ fontSize: '0.65rem' }}>Warm Weather Luxury</span>
+                            <h3 style={{ fontSize: '2rem', fontFamily: 'var(--font-serif)', marginTop: '0.25rem' }}>Summer Collection</h3>
+                          </div>
+                          <button 
+                            className="btn-premium-outline" 
+                            style={{ padding: '0.5rem 1.25rem', fontSize: '0.7rem' }}
+                            onClick={() => { setSelectedCategory('Summer'); setSelectedSubCategory('All'); handleExploreClick(); }}
+                          >
+                            VIEW ALL SUMMER
+                          </button>
+                        </div>
+                        <div className="saree-grid">
+                          {products.filter(p => p.category.toLowerCase() === 'summer').slice(0, 3).map((product) => (
+                            <ProductCard 
+                              key={product.id}
+                              product={product}
+                              onCardClick={setSelectedProduct}
+                              onQuickAdd={handleAddToCart}
+                            />
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* 3. Suits Collection Section */}
+                      <div className="reveal" style={{ borderTop: '1px solid var(--border-color)', paddingTop: '4rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
+                          <div>
+                            <span className="uppercase-track text-gold" style={{ fontSize: '0.65rem' }}>Traditional Fits</span>
+                            <h3 style={{ fontSize: '2rem', fontFamily: 'var(--font-serif)', marginTop: '0.25rem' }}>Luxury Suits</h3>
+                          </div>
+                          <button 
+                            className="btn-premium-outline" 
+                            style={{ padding: '0.5rem 1.25rem', fontSize: '0.7rem' }}
+                            onClick={() => { setSelectedCategory('Suits'); setSelectedSubCategory('All'); handleExploreClick(); }}
+                          >
+                            VIEW ALL SUITS
+                          </button>
+                        </div>
+                        <div className="saree-grid">
+                          {products.filter(p => p.category.toLowerCase() === 'suits').slice(0, 3).map((product) => (
+                            <ProductCard 
+                              key={product.id}
+                              product={product}
+                              onCardClick={setSelectedProduct}
+                              onQuickAdd={handleAddToCart}
+                            />
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* 4. Co-ords Collection Section */}
+                      <div className="reveal" style={{ borderTop: '1px solid var(--border-color)', paddingTop: '4rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
+                          <div>
+                            <span className="uppercase-track text-gold" style={{ fontSize: '0.65rem' }}>Modern Silhouettes</span>
+                            <h3 style={{ fontSize: '2rem', fontFamily: 'var(--font-serif)', marginTop: '0.25rem' }}>Printed Co-ord Sets</h3>
+                          </div>
+                          <button 
+                            className="btn-premium-outline" 
+                            style={{ padding: '0.5rem 1.25rem', fontSize: '0.7rem' }}
+                            onClick={() => { setSelectedCategory('Co-ords'); setSelectedSubCategory('All'); handleExploreClick(); }}
+                          >
+                            VIEW ALL CO-ORDS
+                          </button>
+                        </div>
+                        <div className="saree-grid">
+                          {products.filter(p => p.category.toLowerCase() === 'co-ords').slice(0, 3).map((product) => (
+                            <ProductCard 
+                              key={product.id}
+                              product={product}
+                              onCardClick={setSelectedProduct}
+                              onQuickAdd={handleAddToCart}
+                            />
+                          ))}
+                        </div>
+                      </div>
+
                     </div>
+                  ) : (
+                    /* FILTERED PRODUCT LIST GRID VIEW */
+                    <>
+                      <div className="saree-grid">
+                        {filteredProducts.map((product) => (
+                          <ProductCard 
+                            key={product.id}
+                            product={product}
+                            onCardClick={setSelectedProduct}
+                            onQuickAdd={handleAddToCart}
+                          />
+                        ))}
+                        {filteredProducts.length === 0 && (
+                          <div style={{ gridColumn: 'span 3', textAlign: 'center', padding: '5rem 0', color: 'var(--text-secondary)' }}>
+                            <Compass size={32} style={{ color: 'var(--accent-gold)', marginBottom: '1rem' }} />
+                            <h4 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', marginBottom: '0.5rem' }}>No Items Found</h4>
+                            <p style={{ fontSize: '0.85rem' }}>We are crafting new designs. Check back shortly.</p>
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3.5rem' }}>
+                        <button className="btn-premium reset-view-btn" onClick={() => setSelectedCategory('All')}>
+                          SHOW ALL CATEGORIES
+                        </button>
+                      </div>
+                    </>
                   )}
                 </div>
               </section>
