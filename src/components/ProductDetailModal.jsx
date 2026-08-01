@@ -81,9 +81,41 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
           </span>
           <h2 className="modal-title">{product.title}</h2>
           
-          <div className="modal-price">
-            ₹{product.price.toLocaleString('en-IN')}
-          </div>
+          {product.isPromo ? (
+            <div className="modal-price-container" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '1rem' }}>
+                <span className="modal-price" style={{ color: 'var(--accent-gold-dark)', margin: 0 }}>
+                  ₹{product.price.toLocaleString('en-IN')}
+                </span>
+                <span style={{ textDecoration: 'line-through', color: 'var(--text-secondary)', opacity: 0.6, fontSize: '1rem' }}>
+                  ₹{Math.round(product.price / 0.85).toLocaleString('en-IN')}
+                </span>
+              </div>
+              <div 
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  backgroundColor: 'var(--accent-gold-light)',
+                  color: 'var(--accent-gold-dark)',
+                  fontSize: '0.65rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  padding: '0.3rem 0.6rem',
+                  width: 'fit-content',
+                  textTransform: 'uppercase',
+                  borderRadius: '2px'
+                }}
+              >
+                ✦ Exclusive 15% Artisan Discount Applied
+              </div>
+            </div>
+          ) : (
+            <div className="modal-price">
+              ₹{product.price.toLocaleString('en-IN')}
+            </div>
+          )}
+
 
           {/* Premium Tab Switches */}
           <div style={{ display: 'flex', gap: '1.5rem', borderBottom: '1px solid var(--border-color)', marginBottom: '1.5rem', paddingBottom: '0.25rem' }}>

@@ -9,6 +9,7 @@ import ProductDetailModal from './components/ProductDetailModal';
 import CartDrawer from './components/CartDrawer';
 import AdminLogin from './components/AdminLogin';
 import AdminDashboard from './components/AdminDashboard';
+import PromoPopup from './components/PromoPopup';
 
 export default function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -33,6 +34,39 @@ export default function App() {
     Suits: 0,
     'Co-ords': 0
   });
+
+  // Promotional Popup States
+  const [showPromo, setShowPromo] = useState(false);
+  const [promoProduct, setPromoProduct] = useState(null);
+
+  // Trigger Promotional Popup 3 seconds after loading
+  useEffect(() => {
+    if (isLoaded && currentView === 'storefront') {
+      const shownThisSession = sessionStorage.getItem('velnora_promo_shown');
+      if (!shownThisSession) {
+        const timer = setTimeout(() => {
+          const target = products.find(p => p.id === 'prod-1') || products[0];
+          if (target) {
+            setPromoProduct(target);
+            setShowPromo(true);
+            sessionStorage.setItem('velnora_promo_shown', 'true');
+          }
+        }, 3000);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [isLoaded, currentView, products]);
+
+  const handleClaimPromo = (product) => {
+    setShowPromo(false);
+    // Apply 15% discount for this specific purchase/detail session
+    const promotionalProduct = {
+      ...product,
+      isPromo: true,
+      price: Math.round(product.price * 0.85) // 15% discount
+    };
+    setSelectedProduct(promotionalProduct);
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -152,6 +186,11 @@ export default function App() {
     let newCart = [...cart];
     if (existingIndex > -1) {
       newCart[existingIndex].quantity += 1;
+      // If the incoming product is a promotional product, make sure the cart item adopts the promo price.
+      if (product.isPromo) {
+        newCart[existingIndex].price = product.price;
+        newCart[existingIndex].isPromo = true;
+      }
     } else {
       newCart.push({ ...product, quantity: 1 });
     }
@@ -873,6 +912,14 @@ export default function App() {
             product={selectedProduct}
             onClose={() => setSelectedProduct(null)}
             onAddToCart={handleAddToCart}
+          />
+
+          {/* Promotional Special Offer Popup */}
+          <PromoPopup 
+            isOpen={showPromo} 
+            onClose={() => setShowPromo(false)} 
+            product={promoProduct} 
+            onClaim={handleClaimPromo} 
           />
 
           {/* Shopping Bag Slider Drawer */}
