@@ -613,7 +613,7 @@ export default function App() {
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                             <div>
                               <h5 style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--accent-gold-dark)', marginBottom: '0.25rem' }}>Flagship Atelier</h5>
-                              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>104 Ivory Studio Boulevard, New Delhi, India</p>
+                              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Bypass Road, Dungarpur, Rajasthan</p>
                             </div>
                             <div>
                               <h5 style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--accent-gold-dark)', marginBottom: '0.25rem' }}>Hours of Experience</h5>
