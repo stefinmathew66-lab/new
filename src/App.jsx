@@ -621,7 +621,7 @@ export default function App() {
                             </div>
                             <div>
                               <h5 style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--accent-gold-dark)', marginBottom: '0.25rem' }}>Direct Line</h5>
-                              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>concierge@thevelnora.com | +91 11 4059 8700</p>
+                              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>concierge@thevelnora.com | +91 86192 99237</p>
                             </div>
                           </div>
                         </div>
