@@ -89,16 +89,43 @@ export default function Navbar({
 
           {/* Center Column: Logo */}
           <div 
+            style={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              cursor: 'pointer'
+            }}
             onClick={() => {
               onViewChange('storefront');
               onCategoryChange('All');
               setIsMobileMenuOpen(false);
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="nav-logo-text"
-            style={{ cursor: 'pointer' }}
           >
-            THE VELNORA
+            <span 
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSectionNav('contact');
+              }}
+              style={{
+                fontSize: '0.6rem',
+                textTransform: 'uppercase',
+                letterSpacing: '0.2em',
+                color: 'var(--accent-gold-dark)',
+                fontWeight: 600,
+                marginBottom: '0.15rem',
+                opacity: 0.8,
+                transition: 'opacity 0.2s ease',
+              }}
+              onMouseEnter={(e) => e.target.style.opacity = 1}
+              onMouseLeave={(e) => e.target.style.opacity = 0.8}
+            >
+              Contact Us
+            </span>
+            <div className="nav-logo-text">
+              THE VELNORA
+            </div>
           </div>
 
           {/* Right Column: Actions */}
