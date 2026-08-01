@@ -48,11 +48,16 @@ export default function App() {
   useEffect(() => {
     // 1. Load Products
     const storedProducts = localStorage.getItem('velnora_products');
-    if (storedProducts) {
-      setProducts(JSON.parse(storedProducts));
-    } else {
+    let parsedProducts = storedProducts ? JSON.parse(storedProducts) : [];
+    
+    // Check if the cache contains the old categories (e.g. Silk, Banarasi) instead of Sarees/Summer
+    const hasOldCategories = parsedProducts.length > 0 && parsedProducts.some(p => p.category === 'Silk' || p.category === 'Banarasi');
+    
+    if (!storedProducts || hasOldCategories) {
       localStorage.setItem('velnora_products', JSON.stringify(defaultProducts));
       setProducts(defaultProducts);
+    } else {
+      setProducts(parsedProducts);
     }
 
     // 2. Load Cart
@@ -290,450 +295,439 @@ export default function App() {
           <Navbar 
             cartCount={totalCartCount} 
             onCartClick={() => setIsCartOpen(true)}
-            onViewChange={setCurrentView}
+            onViewChange={(view) => {
+              setCurrentView(view);
+              if (view === 'storefront') {
+                setSelectedCategory('All');
+                setSelectedSubCategory('All');
+              }
+            }}
             currentView={currentView}
             atmosphere={atmosphere}
             onAtmosphereToggle={() => setAtmosphere(atmosphere === 'ivory' ? 'midnight' : 'ivory')}
+            selectedCategory={selectedCategory}
+            onCategoryChange={(cat) => {
+              setSelectedCategory(cat);
+              setSelectedSubCategory('All');
+            }}
           />
 
           {/* 2. PUBLIC STOREFRONT VIEW */}
           {currentView === 'storefront' && (
             <main style={{ marginTop: 'var(--nav-height)' }}>
               
-              {/* Category Circles Row */}
-              <div className="category-circles-container">
-                <div className="container">
-                  <div className="category-circles-grid">
-                    {[
-                      { name: 'Summer', label: 'Summer Collection', img: '/images/summer_dress.png' },
-                      { name: 'Sarees', label: 'Heritage Sarees', img: '/images/silk_kanchipuram.png' },
-                      { name: 'Suits', label: 'Ethnic Suits', img: '/images/suit_anarkali.png' },
-                      { name: 'Co-ords', label: 'Co-ord Sets', img: '/images/coord_set.png' },
-                    ].map((cat) => (
-                      <div 
-                        key={cat.name} 
-                        className={`category-circle-card ${selectedCategory === cat.name ? 'active' : ''}`}
-                        onClick={() => {
-                          setSelectedCategory(cat.name);
-                          setSelectedSubCategory('All');
-                          handleExploreClick();
-                        }}
-                      >
-                        <div className="circle-image-frame">
-                          <img src={cat.img} alt={cat.label} />
-                        </div>
-                        <span className="circle-label">{cat.name}</span>
+              {selectedCategory === 'All' ? (
+                /* HOMEPAGE VIEW */
+                <>
+                  {/* Category Circles Row */}
+                  <div className="category-circles-container">
+                    <div className="container">
+                      <div className="category-circles-grid">
+                        {[
+                          { name: 'Summer', label: 'Summer Collection', img: '/images/summer_dress.png' },
+                          { name: 'Sarees', label: 'Heritage Sarees', img: '/images/silk_kanchipuram.png' },
+                          { name: 'Suits', label: 'Ethnic Suits', img: '/images/suit_anarkali.png' },
+                          { name: 'Co-ords', label: 'Co-ord Sets', img: '/images/coord_set.png' },
+                        ].map((cat) => (
+                          <div 
+                            key={cat.name} 
+                            className={`category-circle-card ${selectedCategory === cat.name ? 'active' : ''}`}
+                            onClick={() => {
+                              setSelectedCategory(cat.name);
+                              setSelectedSubCategory('All');
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }}
+                          >
+                            <div className="circle-image-frame">
+                              <img src={cat.img} alt={cat.label} />
+                            </div>
+                            <span className="circle-label">{cat.name}</span>
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    </div>
                   </div>
-                </div>
-              </div>
 
-              {/* Hero Banner Section */}
-              <Hero onExploreClick={handleExploreClick} />
+                  {/* Hero Banner Section */}
+                  <Hero onExploreClick={() => { setSelectedCategory('Sarees'); setSelectedSubCategory('All'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
 
-              {/* Ticker / Marquee Banner */}
-              <div className="ticker-marquee-bar">
-                <div className="ticker-marquee-content">
-                  {[1, 2, 3].map((i) => (
-                    <span key={i} className="ticker-segment">
-                      <span>✦ THE VELNORA LUXURY SAREES</span>
-                      <span className="bullet">✦</span>
-                      <span>100% CERTIFIED SILK MARK</span>
-                      <span className="bullet">✦</span>
-                      <span>DIRECT FROM ARTISAN WEAVERS</span>
-                      <span className="bullet">✦</span>
-                      <span>WORLDWIDE EXPRESS DELIVERY</span>
-                      <span className="bullet">✦</span>
+                  {/* Ticker / Marquee Banner */}
+                  <div className="ticker-marquee-bar">
+                    <div className="ticker-marquee-content">
+                      {[1, 2, 3].map((i) => (
+                        <span key={i} className="ticker-segment">
+                          <span>✦ THE VELNORA LUXURY</span>
+                          <span className="bullet">✦</span>
+                          <span>100% CERTIFIED SILK MARK</span>
+                          <span className="bullet">✦</span>
+                          <span>DIRECT FROM ARTISAN WEAVERS</span>
+                          <span className="bullet">✦</span>
+                          <span>WORLDWIDE EXPRESS DELIVERY</span>
+                          <span className="bullet">✦</span>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Category Banners Showcase (Examples of each category on main page) */}
+                  <section style={{ padding: '8rem 0', backgroundColor: 'var(--bg-primary)' }}>
+                    <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: '8rem' }}>
+                      
+                      <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+                        <span className="uppercase-track text-gold" style={{ display: 'block', marginBottom: '0.75rem' }}>THE SIGNATURE COLLECTIONS</span>
+                        <h2 style={{ fontSize: '3rem', fontFamily: 'var(--font-serif)' }}>Curated Designer Editions</h2>
+                      </div>
+
+                      {[
+                        {
+                          id: 'Summer',
+                          title: 'Summer Collection',
+                          subtitle: 'Effortless Minimalist Silhouettes',
+                          desc: 'Breezy organic linens, sand tones, and lightweight slip dresses styled for warm days and effortless resort luxury.',
+                          img: '/images/summer_dress.png',
+                          action: 'EXPLORE SUMMER'
+                        },
+                        {
+                          id: 'Sarees',
+                          title: 'Heritage Sarees',
+                          subtitle: 'Artisanal Handlooms & Pure Zari',
+                          desc: 'Masterpieces woven in pure Kanchipuram and Banarasi silk, certified for purity, and detailed with metallic gold work.',
+                          img: '/images/silk_kanchipuram.png',
+                          action: 'EXPLORE SAREES'
+                        },
+                        {
+                          id: 'Suits',
+                          title: 'Luxury Suits',
+                          subtitle: 'Ornate Traditional Suit Sets',
+                          desc: 'Gilded embroidery, pure mulberry silks, and sheer organza dupatta sets curated for luxury and traditional style.',
+                          img: '/images/suit_anarkali.png',
+                          action: 'EXPLORE SUITS'
+                        },
+                        {
+                          id: 'Co-ords',
+                          title: 'Printed Co-ord Sets',
+                          subtitle: 'Modern Silk Crepe Coordinates',
+                          desc: 'Contemporary matching sets featuring relaxed-fit camp collar shirts and wide-leg trousers in flowing premium silk.',
+                          img: '/images/coord_set.png',
+                          action: 'EXPLORE CO-ORDS'
+                        }
+                      ].map((sec, idx) => (
+                        <div 
+                          key={sec.id}
+                          className="category-showcase-row"
+                          style={{
+                            display: 'grid',
+                            gridTemplateColumns: '1fr 1fr',
+                            gap: '4rem',
+                            alignItems: 'center'
+                          }}
+                        >
+                          {/* Image side */}
+                          <div 
+                            className="showcase-image-container"
+                            onClick={() => { setSelectedCategory(sec.id); setSelectedSubCategory('All'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                            style={{
+                              order: idx % 2 === 0 ? 0 : 1,
+                              cursor: 'pointer',
+                              overflow: 'hidden',
+                              borderRadius: '4px',
+                              position: 'relative',
+                              aspectRatio: '1/1',
+                              maxHeight: '520px',
+                              boxShadow: 'var(--shadow-md)'
+                            }}
+                          >
+                            <img 
+                              src={sec.img} 
+                              alt={sec.title} 
+                              style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 1.2s ease' }} 
+                            />
+                            <div style={{
+                              position: 'absolute',
+                              top: 0,
+                              left: 0,
+                              width: '100%',
+                              height: '100%',
+                              backgroundColor: 'rgba(0,0,0,0.1)',
+                              transition: 'background-color 0.4s ease'
+                            }} className="showcase-img-overlay" />
+                          </div>
+
+                          {/* Text side */}
+                          <div style={{ textAlign: idx % 2 === 0 ? 'left' : 'right' }}>
+                            <span className="uppercase-track text-gold" style={{ fontSize: '0.7rem' }}>{sec.subtitle}</span>
+                            <h3 
+                              onClick={() => { setSelectedCategory(sec.id); setSelectedSubCategory('All'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                              style={{ fontSize: '2.5rem', fontFamily: 'var(--font-serif)', marginTop: '0.5rem', marginBottom: '1.5rem', cursor: 'pointer' }}
+                            >
+                              {sec.title}
+                            </h3>
+                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.7', marginBottom: '2.5rem', maxWidth: '480px', marginLeft: idx % 2 === 0 ? '0' : 'auto' }}>
+                              {sec.desc}
+                            </p>
+                            <button 
+                              className="btn-premium" 
+                              onClick={() => { setSelectedCategory(sec.id); setSelectedSubCategory('All'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                            >
+                              {sec.action}
+                            </button>
+                          </div>
+
+                        </div>
+                      ))}
+
+                    </div>
+                  </section>
+
+                  {/* Heritage Brand Philosophy Section */}
+                  <section id="heritage" style={{ padding: '8rem 0', backgroundColor: 'var(--bg-secondary)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
+                    <div className="container">
+                      <div className="contact-layout" style={{ gridTemplateColumns: '1.2fr 1fr' }}>
+                        <div className="reveal reveal-left">
+                          <span className="uppercase-track text-gold" style={{ display: 'block', marginBottom: '0.75rem' }}>
+                            OUR HERITAGE & LEGACY
+                          </span>
+                          <h2 style={{ fontSize: '3rem', fontFamily: 'var(--font-serif)', marginBottom: '1.5rem', lineHeight: '1.15' }}>
+                            Woven in Time, <br />
+                            Preserving the Loom of India
+                          </h2>
+                          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.8', marginBottom: '1.5rem' }}>
+                            At <strong>The Velnora Sarees</strong>, every thread tells a story of devotion, patience, and ancestral heritage. We partner directly with artisan families in Kanchipuram, Varanasi, and weaving centers across India to bring you authentic handloom designs.
+                          </p>
+                          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.8', marginBottom: '1.5rem' }}>
+                            Our mission is to sustain high-density zari craftsmanship, pure mulberry weaves, and ethical production practices. Every creation purchased directly funds the weavers, keeping their loom active and preserving traditional Indian artistry.
+                          </p>
+                        </div>
+                        <div className="reveal reveal-right" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                          <div style={{ padding: '2rem', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', borderRadius: '4px' }}>
+                            <h4 style={{ fontSize: '1.2rem', fontFamily: 'var(--font-serif)', color: 'var(--accent-gold-dark)', marginBottom: '0.5rem' }}>100% Certified Purity</h4>
+                            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>Every saree comes with official Silk Mark certification, guaranteeing authentic mulberry silk and real silver/gold thread zari weaving.</p>
+                          </div>
+                          <div style={{ padding: '2rem', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', borderRadius: '4px' }}>
+                            <h4 style={{ fontSize: '1.2rem', fontFamily: 'var(--font-serif)', color: 'var(--accent-gold-dark)', marginBottom: '0.5rem' }}>Ethical Artisanship</h4>
+                            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>We eliminate middlemen, paying direct fair wages to weaver clusters and investing 5% of all proceeds in loom preservation funds.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                  {/* Contact / Consultation Booking Section */}
+                  <section id="contact" style={{ padding: '8rem 0', backgroundColor: 'var(--bg-primary)' }}>
+                    <div className="container">
+                      <div className="contact-layout">
+                        
+                        <div className="reveal reveal-left">
+                          <span className="uppercase-track text-gold" style={{ display: 'block', marginBottom: '0.75rem' }}>
+                            VISIT OUR STUDIO
+                          </span>
+                          <h2 style={{ fontSize: '3rem', fontFamily: 'var(--font-serif)', marginBottom: '1.5rem', lineHeight: '1.15' }}>
+                            Book a Private <br />
+                            Fitting Consultation
+                          </h2>
+                          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.8', marginBottom: '2.5rem' }}>
+                            Experience our collection in a private setting. Let our design consultants guide you through the weaves, history, and styling of our heritage sarees, bridal trousseaus, and customized commissions.
+                          </p>
+
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                            <div>
+                              <h5 style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--accent-gold-dark)', marginBottom: '0.25rem' }}>Flagship Atelier</h5>
+                              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>104 Ivory Studio Boulevard, New Delhi, India</p>
+                            </div>
+                            <div>
+                              <h5 style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--accent-gold-dark)', marginBottom: '0.25rem' }}>Hours of Experience</h5>
+                              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Tuesday – Sunday: 11:00 AM – 7:00 PM (By Appointment Only)</p>
+                            </div>
+                            <div>
+                              <h5 style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--accent-gold-dark)', marginBottom: '0.25rem' }}>Direct Line</h5>
+                              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>concierge@thevelnora.com | +91 11 4059 8700</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="reveal reveal-right contact-form-card" style={{ padding: '3rem', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', borderRadius: '4px' }}>
+                          <h3 style={{ fontSize: '1.75rem', fontFamily: 'var(--font-serif)', marginBottom: '2rem' }}>Request Appointment</h3>
+                          {contactSuccess ? (
+                            <div style={{ textAlign: 'center', padding: '3rem 0' }}>
+                              <h4 style={{ fontFamily: 'var(--font-serif)', color: 'var(--accent-gold-dark)', fontSize: '1.5rem', marginBottom: '0.5rem' }}>Appointment Requested</h4>
+                              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Our concierge will reach out to you within 24 hours to confirm your reservation details.</p>
+                            </div>
+                          ) : (
+                            <form onSubmit={handleContactSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                              <div className="form-group">
+                                <label className="form-label">Full Name *</label>
+                                <input 
+                                  type="text" 
+                                  className="form-input" 
+                                  placeholder="Aarav Sharma" 
+                                  required 
+                                  value={contactName}
+                                  onChange={(e) => setContactName(e.target.value)}
+                                />
+                              </div>
+
+                              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                                <div className="form-group">
+                                  <label className="form-label">Email *</label>
+                                  <input 
+                                    type="email" 
+                                    className="form-input" 
+                                    placeholder="aarav@example.com" 
+                                    required 
+                                    value={contactEmail}
+                                    onChange={(e) => setContactEmail(e.target.value)}
+                                  />
+                                </div>
+                                <div className="form-group">
+                                  <label className="form-label">Phone *</label>
+                                  <input 
+                                    type="tel" 
+                                    className="form-input" 
+                                    placeholder="+91 98765 43210" 
+                                    required 
+                                    value={contactPhone}
+                                    onChange={(e) => setContactPhone(e.target.value)}
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="form-group">
+                                <label className="form-label">Consultation Purpose</label>
+                                <select 
+                                  className="admin-select"
+                                  value={contactSubject}
+                                  onChange={(e) => setContactSubject(e.target.value)}
+                                >
+                                  <option value="General Consultation">General Consultation</option>
+                                  <option value="Bridal Collection Inquiry">Bridal Trousseau Selection</option>
+                                  <option value="Custom Motif Weave Order">Custom Motif Weave Order</option>
+                                  <option value="Corporate Handloom Gifting">Corporate Gifting Inquiry</option>
+                                </select>
+                              </div>
+
+                              <div className="form-group" style={{ marginBottom: '2rem' }}>
+                                <label className="form-label">Message Details *</label>
+                                <textarea 
+                                  className="form-input" 
+                                  rows="4" 
+                                  placeholder="Please describe your color preferences, wedding dates, or design expectations..." 
+                                  required
+                                  value={contactMessage}
+                                  onChange={(e) => setContactMessage(e.target.value)}
+                                />
+                              </div>
+
+                              <button type="submit" className="btn-premium" style={{ width: '100%' }}>
+                                Submit Request
+                              </button>
+                            </form>
+                          )}
+                        </div>
+
+                      </div>
+                    </div>
+                  </section>
+                </>
+              ) : (
+                /* DEDICATED CATEGORY PAGE */
+                <section style={{ minHeight: '80vh', backgroundColor: 'var(--bg-primary)', paddingBottom: '8rem' }}>
+                  
+                  {/* Category Banner Header */}
+                  <div 
+                    style={{
+                      background: 'linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url(' + (
+                        selectedCategory === 'Summer' ? '/images/summer_dress.png' :
+                        selectedCategory === 'Sarees' ? '/images/silk_kanchipuram.png' :
+                        selectedCategory === 'Suits' ? '/images/suit_anarkali.png' : '/images/coord_set.png'
+                      ) + ')',
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      height: '350px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#FFFFFF',
+                      textAlign: 'center',
+                      borderBottom: '1px solid var(--border-color)',
+                      padding: '0 2rem'
+                    }}
+                  >
+                    <span 
+                      onClick={() => { setSelectedCategory('All'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                      style={{ cursor: 'pointer', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--accent-gold)', display: 'block', marginBottom: '1rem', fontWeight: 600 }}
+                    >
+                      ← Back to Homepage
                     </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Collections Grid Catalog */}
-              <section id="shop" style={{ padding: '8rem 0', backgroundColor: 'var(--bg-primary)' }}>
-                <div className="container">
-                  <div className="reveal" style={{ textAlign: 'center', marginBottom: '4rem' }}>
-                    <span className="uppercase-track text-gold" style={{ display: 'block', marginBottom: '0.75rem' }}>
-                      THE SIGNATURE COLLECTION
-                    </span>
-                    <h2 style={{ fontSize: '3rem', fontFamily: 'var(--font-serif)', marginBottom: '1rem' }}>
-                      Select Handloom Masterpieces
-                    </h2>
-                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6' }}>
-                      Explore the finest Kanchipurams, Banarasis, and delicate organzas. Woven by hand, certified for purity, and curated for heirloom collections.
+                    <h1 style={{ fontSize: '3.5rem', fontFamily: 'var(--font-serif)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      {selectedCategory}
+                    </h1>
+                    <p style={{ fontSize: '0.9rem', opacity: '0.85', letterSpacing: '0.05em', marginTop: '0.5rem', maxWidth: '500px' }}>
+                      {selectedCategory === 'Summer' && 'Lightweight organic linen apparel and minimal slip dresses styled for warm days.'}
+                      {selectedCategory === 'Sarees' && 'Pure mulberry silks, certified gold and silver zari, handloom Kanchipurams and Banarasis.'}
+                      {selectedCategory === 'Suits' && 'Luxury silk salwar suits and gold thread embroidered dupatta sets.'}
+                      {selectedCategory === 'Co-ords' && 'Relaxed-fit luxury printed camp shirts and wide-leg trousers in crepe silk.'}
                     </p>
                   </div>
 
-                  {/* Filter Categories */}
-                  <div className="filter-container reveal">
-                    {['All', 'Summer', 'Sarees', 'Suits', 'Co-ords'].map((cat) => (
-                      <button
-                        key={cat}
-                        className={`filter-tab ${selectedCategory === cat ? 'active' : ''}`}
-                        onClick={() => {
-                          setSelectedCategory(cat);
-                          setSelectedSubCategory('All');
-                        }}
-                      >
-                        {cat === 'All' ? 'All Pieces' : `${cat}`}
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* Subcategories (Sarees only) */}
-                  {selectedCategory.toLowerCase() === 'sarees' && (
-                    <div className="reveal" style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '0.75rem', marginTop: '-1.5rem', marginBottom: '2.5rem' }}>
-                      {['All', 'Silk', 'Banarasi', 'Organza', 'Linen', 'Georgette'].map((sub) => (
-                        <button
-                          key={sub}
-                          onClick={() => setSelectedSubCategory(sub)}
-                          style={{
-                            background: 'none',
-                            border: 'none',
-                            cursor: 'pointer',
-                            fontSize: '0.7rem',
-                            textTransform: 'uppercase',
-                            letterSpacing: '0.08em',
-                            color: selectedSubCategory === sub ? 'var(--accent-gold-dark)' : 'var(--text-secondary)',
-                            borderBottom: selectedSubCategory === sub ? '2px solid var(--accent-gold-dark)' : '2px solid transparent',
-                            paddingBottom: '0.25rem',
-                            fontFamily: 'var(--font-sans)',
-                            fontWeight: 600,
-                            transition: 'var(--transition-fast)'
-                          }}
-                        >
-                          {sub === 'All' ? 'All Saree Types' : sub}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Products Grid */}
-                  {selectedCategory === 'All' ? (
-                    /* SECTIONAL LANDING PAGE VIEW */
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6rem' }}>
-                      
-                      {/* 1. Sarees Collection Section */}
-                      <div className="reveal" style={{ borderTop: '1px solid var(--border-color)', paddingTop: '4rem' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
-                          <div>
-                            <span className="uppercase-track text-gold" style={{ fontSize: '0.65rem' }}>Heritage Weaves</span>
-                            <h3 style={{ fontSize: '2rem', fontFamily: 'var(--font-serif)', marginTop: '0.25rem' }}>Legacy Sarees</h3>
-                          </div>
-                          <button 
-                            className="btn-premium-outline" 
-                            style={{ padding: '0.5rem 1.25rem', fontSize: '0.7rem' }}
-                            onClick={() => { setSelectedCategory('Sarees'); setSelectedSubCategory('All'); handleExploreClick(); }}
-                          >
-                            VIEW ALL SAREES
-                          </button>
-                        </div>
-                        <div className="saree-grid">
-                          {products.filter(p => p.category.toLowerCase() === 'sarees').slice(0, 3).map((product) => (
-                            <ProductCard 
-                              key={product.id}
-                              product={product}
-                              onCardClick={setSelectedProduct}
-                              onQuickAdd={handleAddToCart}
-                            />
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* 2. Summer Collection Section */}
-                      <div className="reveal" style={{ borderTop: '1px solid var(--border-color)', paddingTop: '4rem' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
-                          <div>
-                            <span className="uppercase-track text-gold" style={{ fontSize: '0.65rem' }}>Warm Weather Luxury</span>
-                            <h3 style={{ fontSize: '2rem', fontFamily: 'var(--font-serif)', marginTop: '0.25rem' }}>Summer Collection</h3>
-                          </div>
-                          <button 
-                            className="btn-premium-outline" 
-                            style={{ padding: '0.5rem 1.25rem', fontSize: '0.7rem' }}
-                            onClick={() => { setSelectedCategory('Summer'); setSelectedSubCategory('All'); handleExploreClick(); }}
-                          >
-                            VIEW ALL SUMMER
-                          </button>
-                        </div>
-                        <div className="saree-grid">
-                          {products.filter(p => p.category.toLowerCase() === 'summer').slice(0, 3).map((product) => (
-                            <ProductCard 
-                              key={product.id}
-                              product={product}
-                              onCardClick={setSelectedProduct}
-                              onQuickAdd={handleAddToCart}
-                            />
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* 3. Suits Collection Section */}
-                      <div className="reveal" style={{ borderTop: '1px solid var(--border-color)', paddingTop: '4rem' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
-                          <div>
-                            <span className="uppercase-track text-gold" style={{ fontSize: '0.65rem' }}>Traditional Fits</span>
-                            <h3 style={{ fontSize: '2rem', fontFamily: 'var(--font-serif)', marginTop: '0.25rem' }}>Luxury Suits</h3>
-                          </div>
-                          <button 
-                            className="btn-premium-outline" 
-                            style={{ padding: '0.5rem 1.25rem', fontSize: '0.7rem' }}
-                            onClick={() => { setSelectedCategory('Suits'); setSelectedSubCategory('All'); handleExploreClick(); }}
-                          >
-                            VIEW ALL SUITS
-                          </button>
-                        </div>
-                        <div className="saree-grid">
-                          {products.filter(p => p.category.toLowerCase() === 'suits').slice(0, 3).map((product) => (
-                            <ProductCard 
-                              key={product.id}
-                              product={product}
-                              onCardClick={setSelectedProduct}
-                              onQuickAdd={handleAddToCart}
-                            />
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* 4. Co-ords Collection Section */}
-                      <div className="reveal" style={{ borderTop: '1px solid var(--border-color)', paddingTop: '4rem' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
-                          <div>
-                            <span className="uppercase-track text-gold" style={{ fontSize: '0.65rem' }}>Modern Silhouettes</span>
-                            <h3 style={{ fontSize: '2rem', fontFamily: 'var(--font-serif)', marginTop: '0.25rem' }}>Printed Co-ord Sets</h3>
-                          </div>
-                          <button 
-                            className="btn-premium-outline" 
-                            style={{ padding: '0.5rem 1.25rem', fontSize: '0.7rem' }}
-                            onClick={() => { setSelectedCategory('Co-ords'); setSelectedSubCategory('All'); handleExploreClick(); }}
-                          >
-                            VIEW ALL CO-ORDS
-                          </button>
-                        </div>
-                        <div className="saree-grid">
-                          {products.filter(p => p.category.toLowerCase() === 'co-ords').slice(0, 3).map((product) => (
-                            <ProductCard 
-                              key={product.id}
-                              product={product}
-                              onCardClick={setSelectedProduct}
-                              onQuickAdd={handleAddToCart}
-                            />
-                          ))}
-                        </div>
-                      </div>
-
-                    </div>
-                  ) : (
-                    /* FILTERED PRODUCT LIST GRID VIEW */
-                    <>
-                      <div className="saree-grid">
-                        {filteredProducts.map((product) => (
-                          <ProductCard 
-                            key={product.id}
-                            product={product}
-                            onCardClick={setSelectedProduct}
-                            onQuickAdd={handleAddToCart}
-                          />
-                        ))}
-                        {filteredProducts.length === 0 && (
-                          <div style={{ gridColumn: 'span 3', textAlign: 'center', padding: '5rem 0', color: 'var(--text-secondary)' }}>
-                            <Compass size={32} style={{ color: 'var(--accent-gold)', marginBottom: '1rem' }} />
-                            <h4 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', marginBottom: '0.5rem' }}>No Items Found</h4>
-                            <p style={{ fontSize: '0.85rem' }}>We are crafting new designs. Check back shortly.</p>
-                          </div>
-                        )}
-                      </div>
-                      
-                      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3.5rem' }}>
-                        <button className="btn-premium reset-view-btn" onClick={() => setSelectedCategory('All')}>
-                          SHOW ALL CATEGORIES
-                        </button>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </section>
-
-              {/* Heritage Brand Philosophy Section */}
-              <section id="heritage" style={{ padding: '8rem 0', backgroundColor: 'var(--bg-secondary)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
-                <div className="container">
-                  <div className="contact-layout" style={{ gridTemplateColumns: '1.2fr 1fr' }}>
-                    <div className="reveal reveal-left">
-                      <span className="uppercase-track text-gold" style={{ display: 'block', marginBottom: '0.75rem' }}>
-                        OUR HERITAGE & LEGACY
-                      </span>
-                      <h2 style={{ fontSize: '3rem', fontFamily: 'var(--font-serif)', marginBottom: '1.5rem', lineHeight: '1.15' }}>
-                        Woven in Time, <br />
-                        Preserving the Loom of India
-                      </h2>
-                      <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.8', marginBottom: '1.5rem' }}>
-                        At <strong>The Velnora Sarees</strong>, every thread tells a story of devotion, patience, and ancestral heritage. We partner directly with artisan families in Kanchipuram, Varanasi, and weaving centers across India to bring you authentic handloom designs.
-                      </p>
-                      <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.8', marginBottom: '2rem' }}>
-                        A single Kanchipuram silk saree can take up to 20 days of intricate hand weaving, incorporating three shuttles and authentic silver thread dipped in pure gold zari. These are not merely garments; they are wearable art pieces designed to be passed down through generations.
-                      </p>
-                      
-                      <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                          <ShieldCheck size={20} className="text-gold" />
-                          <span style={{ fontSize: '0.8rem', fontWeight: 600 }}>Silk Mark Certified</span>
-                        </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                          <Compass size={20} className="text-gold" />
-                          <span style={{ fontSize: '0.8rem', fontWeight: 600 }}>Artisan Partnerships</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="reveal reveal-right" style={{ display: 'flex', justifyContent: 'center' }}>
-                      <div 
-                        style={{ 
-                          width: '100%', 
-                          maxWidth: '400px', 
-                          aspectRatio: '3/4', 
-                          overflow: 'hidden', 
-                          border: '1px solid var(--border-gold)',
-                          boxShadow: 'var(--shadow-lg)'
-                        }}
-                      >
-                        <img 
-                          src="/images/banarasi_pink.png" 
-                          alt="Artisan Saree Weaving" 
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
-
-              {/* Consultation Booking & Contact Form */}
-              <section id="contact" className="contact-section">
-                <div className="container">
-                  <div className="contact-layout">
+                  <div className="container" style={{ marginTop: '5rem' }}>
                     
-                    <div className="contact-text-area reveal reveal-left">
-                      <span className="uppercase-track text-gold" style={{ display: 'block', marginBottom: '0.75rem' }}>
-                        BRIDAL & EXCLUSIVE INQUIRIES
-                      </span>
-                      <h2 style={{ fontSize: '3rem', fontFamily: 'var(--font-serif)', marginBottom: '1rem' }}>
-                        Schedule a Private Fitting
-                      </h2>
-                      <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', lineHeight: '1.6' }}>
-                        Whether selecting an heirloom saree for your wedding day or commissioning a custom-woven motif, our concierge service is here to assist. Fill out the form or reach out directly.
-                      </p>
-
-                      <div className="contact-card-info">
-                        <div className="contact-info-block">
-                          <MapPin size={18} className="contact-info-icon" />
-                          <div>
-                            <div className="contact-info-title">Atelier Address</div>
-                            <div className="contact-info-desc">7, Chanakyapuri Diplomatic Enclave, New Delhi - 110021</div>
-                          </div>
-                        </div>
-
-                        <div className="contact-info-block">
-                          <Phone size={18} className="contact-info-icon" />
-                          <div>
-                            <div className="contact-info-title">Telephone</div>
-                            <div className="contact-info-desc">+91 11 4987 6543 | +91 99999 88888</div>
-                          </div>
-                        </div>
-
-                        <div className="contact-info-block">
-                          <Mail size={18} className="contact-info-icon" />
-                          <div>
-                            <div className="contact-info-title">Email Correspondence</div>
-                            <div className="contact-info-desc">concierge@thevelnora.com</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="contact-form-card reveal reveal-right">
-                      {contactSuccess ? (
-                        <div style={{ textAlign: 'center', padding: '3rem 0' }}>
-                          <span style={{ fontSize: '2.5rem', display: 'block', marginBottom: '1rem' }}>✨</span>
-                          <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.75rem', marginBottom: '1rem' }}>Inquiry Received</h3>
-                          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
-                            Thank you. Our luxury concierge representative will contact you within 24 hours to schedule your private consultation.
-                          </p>
-                        </div>
-                      ) : (
-                        <form onSubmit={handleContactSubmit}>
-                          <div className="form-group">
-                            <label className="form-label">Your Name *</label>
-                            <input 
-                              type="text" 
-                              className="form-input" 
-                              placeholder="Aarav Sharma" 
-                              required 
-                              value={contactName}
-                              onChange={(e) => setContactName(e.target.value)}
-                            />
-                          </div>
-
-                          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                            <div className="form-group">
-                              <label className="form-label">Email *</label>
-                              <input 
-                                type="email" 
-                                className="form-input" 
-                                placeholder="aarav@example.com" 
-                                required 
-                                value={contactEmail}
-                                onChange={(e) => setContactEmail(e.target.value)}
-                              />
-                            </div>
-                            <div className="form-group">
-                              <label className="form-label">Phone *</label>
-                              <input 
-                                type="tel" 
-                                className="form-input" 
-                                placeholder="+91 98765 43210" 
-                                required 
-                                value={contactPhone}
-                                onChange={(e) => setContactPhone(e.target.value)}
-                              />
-                            </div>
-                          </div>
-
-                          <div className="form-group">
-                            <label className="form-label">Consultation Purpose</label>
-                            <select 
-                              className="admin-select"
-                              value={contactSubject}
-                              onChange={(e) => setContactSubject(e.target.value)}
-                            >
-                              <option value="General Consultation">General Consultation</option>
-                              <option value="Bridal Collection Inquiry">Bridal Trousseau Selection</option>
-                              <option value="Custom Motif Weave Order">Custom Motif Weave Order</option>
-                              <option value="Corporate Handloom Gifting">Corporate Gifting Inquiry</option>
-                            </select>
-                          </div>
-
-                          <div className="form-group" style={{ marginBottom: '2rem' }}>
-                            <label className="form-label">Message Details *</label>
-                            <textarea 
-                              className="form-input" 
-                              rows="4" 
-                              placeholder="Please describe your color preferences, wedding dates, or design expectations..." 
-                              required
-                              value={contactMessage}
-                              onChange={(e) => setContactMessage(e.target.value)}
-                            />
-                          </div>
-
-                          <button type="submit" className="btn-premium" style={{ width: '100%' }}>
-                            Submit Request
+                    {/* Subcategories (Sarees only) */}
+                    {selectedCategory.toLowerCase() === 'sarees' && (
+                      <div className="reveal" style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '4rem' }}>
+                        {['All', 'Silk', 'Banarasi', 'Organza', 'Linen', 'Georgette'].map((sub) => (
+                          <button
+                            key={sub}
+                            onClick={() => setSelectedSubCategory(sub)}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              cursor: 'pointer',
+                              fontSize: '0.7rem',
+                              textTransform: 'uppercase',
+                              letterSpacing: '0.08em',
+                              color: selectedSubCategory === sub ? 'var(--accent-gold-dark)' : 'var(--text-secondary)',
+                              borderBottom: selectedSubCategory === sub ? '2px solid var(--accent-gold-dark)' : '2px solid transparent',
+                              paddingBottom: '0.25rem',
+                              fontFamily: 'var(--font-sans)',
+                              fontWeight: 600,
+                              transition: 'var(--transition-fast)'
+                            }}
+                          >
+                            {sub === 'All' ? 'All Saree Types' : sub}
                           </button>
-                        </form>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Product Cards Grid */}
+                    <div className="saree-grid">
+                      {filteredProducts.map((product) => (
+                        <ProductCard 
+                          key={product.id}
+                          product={product}
+                          onCardClick={setSelectedProduct}
+                          onQuickAdd={handleAddToCart}
+                        />
+                      ))}
+                      {filteredProducts.length === 0 && (
+                        <div style={{ gridColumn: 'span 3', textAlign: 'center', padding: '5rem 0', color: 'var(--text-secondary)' }}>
+                          <Compass size={32} style={{ color: 'var(--accent-gold)', marginBottom: '1rem' }} />
+                          <h4 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', marginBottom: '0.5rem' }}>No Items Found</h4>
+                          <p style={{ fontSize: '0.85rem' }}>We are weaving new designs. Check back shortly.</p>
+                        </div>
                       )}
                     </div>
 
+                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '5rem' }}>
+                      <button className="btn-premium reset-view-btn" onClick={() => { setSelectedCategory('All'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+                        ← BACK TO HOMEPAGE
+                      </button>
+                    </div>
+
                   </div>
-                </div>
-              </section>
+                </section>
+              )}
 
               {/* Footer Section */}
               <footer className="footer">
@@ -749,19 +743,19 @@ export default function App() {
                     <div>
                       <h4 className="footer-title">Heritage Collections</h4>
                       <ul className="footer-links">
-                        <li className="footer-link" onClick={() => { setSelectedCategory('Summer'); setSelectedSubCategory('All'); handleExploreClick(); }}>Summer Collection</li>
-                        <li className="footer-link" onClick={() => { setSelectedCategory('Sarees'); setSelectedSubCategory('All'); handleExploreClick(); }}>Heritage Sarees</li>
-                        <li className="footer-link" onClick={() => { setSelectedCategory('Suits'); setSelectedSubCategory('All'); handleExploreClick(); }}>Luxury Suits</li>
-                        <li className="footer-link" onClick={() => { setSelectedCategory('Co-ords'); setSelectedSubCategory('All'); handleExploreClick(); }}>Modern Co-ords</li>
+                        <li className="footer-link" onClick={() => { setSelectedCategory('Summer'); setSelectedSubCategory('All'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Summer Collection</li>
+                        <li className="footer-link" onClick={() => { setSelectedCategory('Sarees'); setSelectedSubCategory('All'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Heritage Sarees</li>
+                        <li className="footer-link" onClick={() => { setSelectedCategory('Suits'); setSelectedSubCategory('All'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Luxury Suits</li>
+                        <li className="footer-link" onClick={() => { setSelectedCategory('Co-ords'); setSelectedSubCategory('All'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Modern Co-ords</li>
                       </ul>
                     </div>
 
                     <div>
                       <h4 className="footer-title">Studio Links</h4>
                       <ul className="footer-links">
-                        <li className="footer-link" onClick={() => handleExploreClick()}>Online Boutique</li>
-                        <li className="footer-link" onClick={() => { const el = document.getElementById('heritage'); el && el.scrollIntoView({ behavior: 'smooth' }); }}>Heritage Page</li>
-                        <li className="footer-link" onClick={() => { const el = document.getElementById('contact'); el && el.scrollIntoView({ behavior: 'smooth' }); }}>Book Fitting</li>
+                        <li className="footer-link" onClick={() => { setSelectedCategory('All'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Online Boutique</li>
+                        <li className="footer-link" onClick={() => { setSelectedCategory('All'); setTimeout(() => { const el = document.getElementById('heritage'); el && el.scrollIntoView({ behavior: 'smooth' }); }, 150); }}>Heritage Page</li>
+                        <li className="footer-link" onClick={() => { setSelectedCategory('All'); setTimeout(() => { const el = document.getElementById('contact'); el && el.scrollIntoView({ behavior: 'smooth' }); }, 150); }}>Book Fitting</li>
                       </ul>
                     </div>
 

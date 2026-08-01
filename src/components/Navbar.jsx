@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingBag, User, Menu, X, Sun, Moon } from 'lucide-react';
 
-export default function Navbar({ cartCount, onCartClick, onViewChange, currentView, atmosphere, onAtmosphereToggle }) {
+export default function Navbar({ 
+  cartCount, 
+  onCartClick, 
+  onViewChange, 
+  currentView, 
+  atmosphere, 
+  onAtmosphereToggle,
+  selectedCategory,
+  onCategoryChange
+}) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -17,22 +26,28 @@ export default function Navbar({ cartCount, onCartClick, onViewChange, currentVi
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavClick = (sectionId) => {
+  const handleCategoryNav = (cat) => {
     setIsMobileMenuOpen(false);
     if (currentView !== 'storefront') {
       onViewChange('storefront');
-      setTimeout(() => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
-    } else {
+    }
+    onCategoryChange(cat);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSectionNav = (sectionId) => {
+    setIsMobileMenuOpen(false);
+    if (currentView !== 'storefront') {
+      onViewChange('storefront');
+    }
+    onCategoryChange('All');
+    
+    setTimeout(() => {
       const element = document.getElementById(sectionId);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       }
-    }
+    }, 150);
   };
 
   return (
@@ -61,6 +76,7 @@ export default function Navbar({ cartCount, onCartClick, onViewChange, currentVi
                   border: 'none',
                   cursor: 'pointer',
                   color: 'var(--text-primary)',
+                  display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   padding: '0.25rem'
@@ -75,7 +91,9 @@ export default function Navbar({ cartCount, onCartClick, onViewChange, currentVi
           <div 
             onClick={() => {
               onViewChange('storefront');
+              onCategoryChange('All');
               setIsMobileMenuOpen(false);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             className="nav-logo-text"
             style={{ cursor: 'pointer' }}
@@ -180,10 +198,13 @@ export default function Navbar({ cartCount, onCartClick, onViewChange, currentVi
         {/* Row 2: Desktop Menu Links */}
         {currentView === 'storefront' ? (
           <div className="nav-row-links nav-links-desktop">
-            <span onClick={() => handleNavClick('hero')} className="nav-link-item">Home</span>
-            <span onClick={() => handleNavClick('shop')} className="nav-link-item">Collection</span>
-            <span onClick={() => handleNavClick('heritage')} className="nav-link-item">Heritage</span>
-            <span onClick={() => handleNavClick('contact')} className="nav-link-item">Contact</span>
+            <span onClick={() => handleCategoryNav('All')} className={`nav-link-item ${selectedCategory === 'All' ? 'active' : ''}`}>Home</span>
+            <span onClick={() => handleCategoryNav('Summer')} className={`nav-link-item ${selectedCategory === 'Summer' ? 'active' : ''}`}>Summer</span>
+            <span onClick={() => handleCategoryNav('Sarees')} className={`nav-link-item ${selectedCategory === 'Sarees' ? 'active' : ''}`}>Sarees</span>
+            <span onClick={() => handleCategoryNav('Suits')} className={`nav-link-item ${selectedCategory === 'Suits' ? 'active' : ''}`}>Suits</span>
+            <span onClick={() => handleCategoryNav('Co-ords')} className={`nav-link-item ${selectedCategory === 'Co-ords' ? 'active' : ''}`}>Co-ords</span>
+            <span onClick={() => handleSectionNav('heritage')} className="nav-link-item">Heritage</span>
+            <span onClick={() => handleSectionNav('contact')} className="nav-link-item">Contact</span>
           </div>
         ) : (
           <div className="nav-row-links nav-links-desktop">
@@ -205,35 +226,53 @@ export default function Navbar({ cartCount, onCartClick, onViewChange, currentVi
             borderBottom: '1px solid var(--border-color)',
             zIndex: 890,
             overflow: 'hidden',
-            maxHeight: 0,
+            maxHeight: isMobileMenuOpen ? '320px' : 0,
             transition: 'max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
             display: 'flex',
             flexDirection: 'column',
             boxShadow: 'var(--shadow-md)'
           }}
         >
-          <div style={{ padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <div style={{ padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             <span 
-              onClick={() => handleNavClick('hero')} 
-              style={{ fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '0.15em', cursor: 'pointer', fontWeight: 500, color: 'var(--text-primary)', borderBottom: '1px solid rgba(0,0,0,0.03)', paddingBottom: '0.5rem' }}
+              onClick={() => handleCategoryNav('All')} 
+              style={{ fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '0.12em', cursor: 'pointer', fontWeight: 500, color: 'var(--text-primary)', borderBottom: '1px solid rgba(255,255,255,0.03)', paddingBottom: '0.4rem' }}
             >
               Home
             </span>
             <span 
-              onClick={() => handleNavClick('shop')} 
-              style={{ fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '0.15em', cursor: 'pointer', fontWeight: 500, color: 'var(--text-primary)', borderBottom: '1px solid rgba(0,0,0,0.03)', paddingBottom: '0.5rem' }}
+              onClick={() => handleCategoryNav('Summer')} 
+              style={{ fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '0.12em', cursor: 'pointer', fontWeight: 500, color: 'var(--text-primary)', borderBottom: '1px solid rgba(255,255,255,0.03)', paddingBottom: '0.4rem' }}
             >
-              Collection
+              Summer Collection
             </span>
             <span 
-              onClick={() => handleNavClick('heritage')} 
-              style={{ fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '0.15em', cursor: 'pointer', fontWeight: 500, color: 'var(--text-primary)', borderBottom: '1px solid rgba(0,0,0,0.03)', paddingBottom: '0.5rem' }}
+              onClick={() => handleCategoryNav('Sarees')} 
+              style={{ fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '0.12em', cursor: 'pointer', fontWeight: 500, color: 'var(--text-primary)', borderBottom: '1px solid rgba(255,255,255,0.03)', paddingBottom: '0.4rem' }}
+            >
+              Heritage Sarees
+            </span>
+            <span 
+              onClick={() => handleCategoryNav('Suits')} 
+              style={{ fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '0.12em', cursor: 'pointer', fontWeight: 500, color: 'var(--text-primary)', borderBottom: '1px solid rgba(255,255,255,0.03)', paddingBottom: '0.4rem' }}
+            >
+              Luxury Suits
+            </span>
+            <span 
+              onClick={() => handleCategoryNav('Co-ords')} 
+              style={{ fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '0.12em', cursor: 'pointer', fontWeight: 500, color: 'var(--text-primary)', borderBottom: '1px solid rgba(255,255,255,0.03)', paddingBottom: '0.4rem' }}
+            >
+              Co-ords Sets
+            </span>
+            <span 
+              onClick={() => handleSectionNav('heritage')} 
+              style={{ fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '0.12em', cursor: 'pointer', fontWeight: 500, color: 'var(--text-primary)', borderBottom: '1px solid rgba(255,255,255,0.03)', paddingBottom: '0.4rem' }}
             >
               Heritage
             </span>
             <span 
-              onClick={() => handleNavClick('contact')} 
-              style={{ fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '0.15em', cursor: 'pointer', fontWeight: 500, color: 'var(--text-primary)', paddingBottom: '0.5rem' }}
+              onClick={() => handleSectionNav('contact')} 
+              style={{ fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '0.12em', cursor: 'pointer', fontWeight: 500, color: 'var(--text-primary)', paddingBottom: '0.4rem' }}
             >
               Contact
             </span>
