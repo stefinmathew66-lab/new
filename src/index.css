@@ -3,16 +3,16 @@
 
 /* CSS Variables */
 :root {
-  --bg-primary: #FAF8F5;
-  --bg-secondary: #F4EFEB;
-  --text-primary: #1E1C1A;
-  --text-secondary: #5C5651;
-  --accent-gold: #C5A880;
-  --accent-gold-dark: #A88B58;
-  --accent-gold-light: #E2D7C7;
-  --accent-charcoal: #2A2624;
-  --border-color: rgba(30, 28, 26, 0.08);
-  --border-gold: rgba(197, 168, 128, 0.3);
+  --bg-primary: #FAF7F2;
+  --bg-secondary: #F3EEE4;
+  --text-primary: #1B332C;
+  --text-secondary: #4A635B;
+  --accent-gold: #C07860;
+  --accent-gold-dark: #9F543E;
+  --accent-gold-light: #EBD9D4;
+  --accent-charcoal: #1B332C;
+  --border-color: rgba(27, 51, 44, 0.08);
+  --border-gold: rgba(192, 120, 96, 0.3);
   --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.02);
   --shadow-md: 0 10px 30px rgba(30, 28, 26, 0.04);
   --shadow-lg: 0 20px 40px rgba(30, 28, 26, 0.08);
@@ -565,13 +565,16 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
   margin-bottom: 1.5rem;
   position: relative;
-  border: 1px solid transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(27, 51, 44, 0.04);
   transition: var(--transition-smooth);
 }
 
 .product-card:hover .product-image-container {
-  border-color: var(--border-gold);
-  box-shadow: var(--shadow-md);
+  border-color: var(--accent-gold);
+  box-shadow: 0 15px 30px rgba(27, 51, 44, 0.12);
+  transform: translateY(-4px);
 }
 
 .product-img {
@@ -1551,16 +1554,16 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Midnight Lounge Theme Variable Overrides */
 body.theme-midnight {
-  --bg-primary: #12100E;
-  --bg-secondary: #1D1916;
-  --text-primary: #F7EFE5;
-  --text-secondary: #ABA094;
-  --accent-gold: #E5C190;
-  --accent-gold-dark: #C59B62;
-  --accent-gold-light: #3E3227;
-  --accent-charcoal: #F7EFE5;
-  --border-color: rgba(247, 239, 229, 0.08);
-  --border-gold: rgba(229, 193, 144, 0.4);
+  --bg-primary: #0C1210;
+  --bg-secondary: #131F1C;
+  --text-primary: #ECEFEF;
+  --text-secondary: #8DA19B;
+  --accent-gold: #D29888;
+  --accent-gold-dark: #B67160;
+  --accent-gold-light: #203530;
+  --accent-charcoal: #ECEFEF;
+  --border-color: rgba(236, 239, 239, 0.08);
+  --border-gold: rgba(210, 152, 136, 0.4);
   --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.5);
   --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.7);
@@ -1569,11 +1572,11 @@ body.theme-midnight {
 }
 
 body.theme-midnight .navbar-glass {
-  background: rgba(18, 16, 14, 0.85) !important;
+  background: rgba(12, 18, 16, 0.85) !important;
 }
 
 body.theme-midnight .navbar-glass.scrolled {
-  background: rgba(18, 16, 14, 0.95) !important;
+  background: rgba(12, 18, 16, 0.95) !important;
 }
 
 body.theme-midnight .mobile-menu-drawer {
@@ -2142,13 +2145,50 @@ body.theme-midnight .product-price-sale {
   }
 }
 
-/* Category Banners Showcase Styles */
+/* Category Banners Showcase Styles with Inset Luxury Frames */
 .category-showcase-row {
   margin-bottom: 2rem;
 }
 
+.showcase-image-wrapper {
+  position: relative;
+  transition: var(--transition-smooth);
+}
+
+/* Inset luxury frame overlay inside the image container */
+.showcase-image-container::after {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  border: 1.5px solid rgba(250, 247, 242, 0.85); /* Warm Ivory cream border */
+  border-radius: 4px;
+  z-index: 4; /* Renders on top of the images */
+  pointer-events: none;
+  transition: var(--transition-smooth);
+}
+
+.showcase-image-wrapper:hover .showcase-image-container::after {
+  top: 22px;
+  left: 22px;
+  right: 22px;
+  bottom: 22px;
+  border-color: var(--accent-gold); /* Shifts inwards and turns gold on hover */
+}
+
+.showcase-image-container {
+  position: relative;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 15px 35px rgba(27, 51, 44, 0.08);
+  border-radius: 8px; /* Smooth rounded corners */
+  transition: var(--transition-smooth);
+  overflow: hidden;
+}
+
 .showcase-image-container:hover img {
-  transform: scale(1.05) !important;
+  transform: scale(1.06) !important;
 }
 
 .showcase-image-container:hover .showcase-img-overlay {
@@ -2158,10 +2198,24 @@ body.theme-midnight .product-price-sale {
 @media (max-width: 768px) {
   .category-showcase-row {
     grid-template-columns: 1fr !important;
-    gap: 2.5rem !important;
+    gap: 3.5rem !important;
+  }
+  .showcase-image-wrapper {
+    order: 0 !important;
+  }
+  .showcase-image-container::after {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+  }
+  .showcase-image-wrapper:hover .showcase-image-container::after {
+    top: 14px;
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
   }
   .showcase-image-container {
-    order: 0 !important;
     max-height: 380px !important;
   }
   .category-showcase-row > div:nth-child(2) {

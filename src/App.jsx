@@ -26,7 +26,7 @@ export default function App() {
   const [selectedSubCategory, setSelectedSubCategory] = useState('All');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [atmosphere, setAtmosphere] = useState('midnight'); // 'ivory' or 'midnight'
+  const [atmosphere, setAtmosphere] = useState('ivory'); // 'ivory' or 'midnight'
   const [showcaseSlideIndices, setShowcaseSlideIndices] = useState({
     Summer: 0,
     Sarees: 0,
@@ -449,48 +449,50 @@ export default function App() {
                         >
                           {/* Image side */}
                           <div 
-                            className="showcase-image-container"
-                            onClick={() => { setSelectedCategory(sec.id); setSelectedSubCategory('All'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                            style={{
-                              order: idx % 2 === 0 ? 0 : 1,
-                              cursor: 'pointer',
-                              overflow: 'hidden',
-                              borderRadius: '4px',
-                              position: 'relative',
-                              aspectRatio: '1/1',
-                              maxHeight: '520px',
-                              boxShadow: 'var(--shadow-md)'
-                            }}
+                            className="showcase-image-wrapper"
+                            style={{ order: idx % 2 === 0 ? 0 : 1 }}
                           >
-                            {sec.images.map((imgUrl, iIndex) => (
-                              <img 
-                                key={imgUrl}
-                                src={imgUrl} 
-                                alt={sec.title} 
-                                style={{ 
-                                  position: 'absolute',
-                                  top: 0,
-                                  left: 0,
-                                  width: '100%',
-                                  height: '100%',
-                                  objectFit: 'cover',
-                                  opacity: showcaseSlideIndices[sec.id] === iIndex ? 1 : 0,
-                                  transition: 'opacity 1.2s ease-in-out',
-                                  zIndex: showcaseSlideIndices[sec.id] === iIndex ? 2 : 1,
-                                  transform: 'scale(1.01)'
-                                }} 
-                              />
-                            ))}
-                            <div style={{
-                              position: 'absolute',
-                              top: 0,
-                              left: 0,
-                              width: '100%',
-                              height: '100%',
-                              backgroundColor: 'rgba(0,0,0,0.1)',
-                              transition: 'background-color 0.4s ease',
-                              zIndex: 3
-                            }} className="showcase-img-overlay" />
+                            <div 
+                              className="showcase-image-container"
+                              onClick={() => { setSelectedCategory(sec.id); setSelectedSubCategory('All'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                              style={{
+                                cursor: 'pointer',
+                                overflow: 'hidden',
+                                position: 'relative',
+                                aspectRatio: '1/1',
+                                maxHeight: '520px'
+                              }}
+                            >
+                              {sec.images.map((imgUrl, iIndex) => (
+                                <img 
+                                  key={imgUrl}
+                                  src={imgUrl} 
+                                  alt={sec.title} 
+                                  style={{ 
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'cover',
+                                    opacity: showcaseSlideIndices[sec.id] === iIndex ? 1 : 0,
+                                    transition: 'opacity 1.2s ease-in-out',
+                                    zIndex: showcaseSlideIndices[sec.id] === iIndex ? 2 : 1,
+                                    transform: 'scale(1.01)'
+                                  }} 
+                                />
+                              ))}
+                              <div style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                width: '100%',
+                                height: '100%',
+                                backgroundColor: 'rgba(0,0,0,0.1)',
+                                transition: 'background-color 0.4s ease',
+                                zIndex: 3
+                              }} className="showcase-img-overlay" />
+                            </div>
                           </div>
 
                           {/* Text side */}
