@@ -1,55 +1,58 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowDown } from 'lucide-react';
 
+const HERO_IMAGES = [
+  "/images/silk_kanchipuram.png",
+  "/images/banarasi_pink.png",
+  "/images/organza_mint.png",
+  "/images/georgette_indigo.png"
+];
+
 export default function Hero({ onExploreClick }) {
-  const [scrollY, setScrollY] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % HERO_IMAGES.length);
+    }, 5000);
+    return () => clearInterval(timer);
   }, []);
-
-  // Parallax calculations
-  const imageScale = 1.1 - Math.min(scrollY * 0.0003, 0.1);
-  const textTranslateY = scrollY * 0.4;
-  const overlayOpacity = Math.min(0.2 + (scrollY * 0.0015), 0.7);
 
   return (
     <section id="hero" className="hero-scroll-container">
-      {/* Background image container with scroll-linked scaling */}
-      <div 
-        className="hero-bg-frame"
-        style={{
-          transform: `scale(${imageScale})`,
-        }}
-      >
-        <img 
-          src="/images/silk_kanchipuram.png" 
-          alt="Luxury Silk Saree Close Up" 
-          className="hero-image-zoom"
-          style={{
-            transform: `translateY(${scrollY * 0.05}px)`
-          }}
-        />
+      {/* Background Slideshow */}
+      <div className="hero-bg-frame">
+        {HERO_IMAGES.map((imgUrl, index) => (
+          <img 
+            key={index}
+            src={imgUrl} 
+            alt={`Luxury Saree Hero Slide ${index + 1}`} 
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center',
+              opacity: currentImageIndex === index ? 1 : 0,
+              transition: 'opacity 1.5s ease-in-out',
+              zIndex: currentImageIndex === index ? 2 : 1,
+              filter: 'brightness(0.7)'
+            }}
+          />
+        ))}
+        {/* Overlay curtain */}
         <div 
           className="hero-overlay-curtain" 
-          style={{ 
-            backgroundColor: `rgba(30, 28, 26, ${overlayOpacity})` 
-          }}
+          style={{ zIndex: 3 }}
         />
       </div>
 
-      {/* Main hero typography with scroll-linked translation & fade */}
+      {/* Main hero typography */}
       <div 
         className="hero-content-reveal"
-        style={{
-          transform: `translateY(${textTranslateY}px)`,
-          opacity: Math.max(1 - (scrollY * 0.002), 0)
-        }}
+        style={{ zIndex: 10 }}
       >
         <h4 className="hero-subtitle-sub">
           THE ART OF HANDLOOM WEAVING
@@ -91,8 +94,6 @@ export default function Hero({ onExploreClick }) {
           alignItems: 'center',
           gap: '0.5rem',
           color: '#FFFFFF',
-          opacity: Math.max(1 - (scrollY * 0.004), 0),
-          transition: 'opacity 0.3s ease',
           pointerEvents: 'none'
         }}
       >
